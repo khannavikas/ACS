@@ -1,6 +1,7 @@
 using Azure;
 using Azure.Communication.CallAutomation;
-using Azure.Messaging;
+using Azure.Messaging.EventGrid;
+using Azure.Messaging.EventGrid.SystemEvents;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,9 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Recording
 {
@@ -130,9 +131,41 @@ namespace Recording
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
              ILogger log)
         {
-            try
+
+            // Don't move this line below, it should be before reading from stream
+            var content = await req.ReadAsStringAsync();
+
+            string response = string.Empty;
+            BinaryData events = await BinaryData.FromStreamAsync(req.Body);
+            log.LogInformation($"Received events: {events}");
+
+            EventGridEvent[] eventGridEvents = EventGridEvent.ParseMany(events);
+
+            foreach (EventGridEvent eventGridEvent in eventGridEvents)
             {
-                var content = await req.ReadAsStringAsync();
+                // Handle system events for webhook handshake
+                if (eventGridEvent.TryGetSystemEventData(out object eventData))
+                {
+                    // Handle the subscription validation event
+                    if (eventData is SubscriptionValidationEventData subscriptionValidationEventData)
+                    {
+                        log.LogInformation($"Got SubscriptionValidation event data, validation code: {subscriptionValidationEventData.ValidationCode}, topic: {eventGridEvent.Topic}");
+                        // Do any additional validation (as required) and then return back the below response
+                        var responseData = new
+                        {
+                            ValidationResponse = subscriptionValidationEventData.ValidationCode
+                        };
+
+                        return new OkObjectResult(responseData);
+                    }
+                }
+            }
+
+
+            try
+
+            {
+
                 var connectionString = Environment.GetEnvironmentVariable("connectionString"); // Find your Communication Services resource in the Azure portal
 
 
@@ -143,10 +176,10 @@ namespace Recording
                 foreach (var item in payload.Data.RecordingStorageInfo.RecordingChunks)
                 {
                     var recordingDownloadUri = new Uri(item.ContentLocation);
-                    var response = await callAutomationClient.GetCallRecording().DownloadStreamingAsync(recordingDownloadUri);
+                    var callResponse = await callAutomationClient.GetCallRecording().DownloadStreamingAsync(recordingDownloadUri);
 
 
-                    var recordingStreamResult = response.GetRawResponse().Status.ToString();
+                    var recordingStreamResult = callResponse.GetRawResponse().Status.ToString();
 
 
                     var recordingFileName = item.DocumentId + "-" + item.Index + "-" +
@@ -157,7 +190,7 @@ namespace Recording
                     var container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName);
 
                     var uploadResult = await container.UploadBlobAsync(recordingFileName,
-                        response.Value);
+                        callResponse.Value);
 
                     var uploadResultStatus = uploadResult.GetRawResponse().Status.ToString();
 

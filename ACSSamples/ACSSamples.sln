@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recording", "Recording\Recording.csproj", "{D00147D3-AB67-45F8-A945-78168CEE2370}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventReminder", "CallReminder\EventReminder.csproj", "{7589D59F-48E2-452E-B107-19E879F2B5DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D00147D3-AB67-45F8-A945-78168CEE2370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D00147D3-AB67-45F8-A945-78168CEE2370}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D00147D3-AB67-45F8-A945-78168CEE2370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7589D59F-48E2-452E-B107-19E879F2B5DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7589D59F-48E2-452E-B107-19E879F2B5DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7589D59F-48E2-452E-B107-19E879F2B5DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7589D59F-48E2-452E-B107-19E879F2B5DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

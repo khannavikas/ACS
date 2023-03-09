@@ -17,7 +17,7 @@ namespace Recording
 
             CallAutomationClient callAutomationClient;
 
-            if (string.IsNullOrEmpty(pmaUrl))
+            if (!string.IsNullOrEmpty(pmaUrl))
             {
                 callAutomationClient = new CallAutomationClient(pmaEndpoint: new Uri(pmaUrl), connectionString);
             }

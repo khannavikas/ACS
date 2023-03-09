@@ -19,6 +19,7 @@ using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 namespace Recording
 {
@@ -159,7 +160,7 @@ namespace Recording
                 // handle exception
             }
 
-            return new OkResult();
+            return new OkObjectResult(recordingId);
 
         }
 
@@ -177,7 +178,7 @@ namespace Recording
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                throw;
+                return new ExceptionResult(ex, true);
             }
 
             return new OkResult();
@@ -198,7 +199,7 @@ namespace Recording
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                throw;
+                return new ExceptionResult(ex,true);
             }
 
             return new OkResult();
@@ -218,7 +219,7 @@ namespace Recording
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                throw;
+                return new ExceptionResult(ex, true);
                 // handle exception
             }
 

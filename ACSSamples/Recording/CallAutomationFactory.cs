@@ -12,7 +12,22 @@ namespace Recording
         public static CallAutomationClient GetAutomationClient()
         {
             var connectionString = Environment.GetEnvironmentVariable("connectionString");
-            CallAutomationClient callAutomationClient = new CallAutomationClient(connectionString);
+
+            var pmaUrl = Environment.GetEnvironmentVariable("PMAUrl");
+
+            CallAutomationClient callAutomationClient;
+
+            if (string.IsNullOrEmpty(pmaUrl))
+            {
+                callAutomationClient = new CallAutomationClient(pmaEndpoint: new Uri(pmaUrl), connectionString);
+            }
+            else
+            {
+
+                callAutomationClient = new CallAutomationClient(connectionString);
+            }
+
+          
             return callAutomationClient;
         }
 

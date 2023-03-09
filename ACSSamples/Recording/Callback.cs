@@ -45,9 +45,16 @@ namespace Recording
                 log.LogInformation($"Received events: {binEvents}");
                 EventGridEvent[] eventGridEvents = new List<EventGridEvent>().ToArray();
 
-                if (binEvents != null)
+                if (binEvents != null )
                 {
-                    eventGridEvents = EventGridEvent.ParseMany(binEvents);
+                    try
+                    {
+                        eventGridEvents = EventGridEvent.ParseMany(binEvents);
+                    }
+                    catch (Exception ex)
+                    {
+                        // do nothing if it does not parse well
+                    }
                 }
 
                 foreach (EventGridEvent eventGridEvent in eventGridEvents)

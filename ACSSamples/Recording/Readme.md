@@ -70,7 +70,10 @@ this way:
     "Callbackurl": "<NGROK URL>/api/Callback",
     "ACSCallerPhoneNumber": "ACS configured Phone number",
     "CallePhoneNumber": "Actual phone number to be called",
-    "CallerUserIdentifier": "ACS configured user identifier"
+    "CallerUserIdentifier": "ACS configured user identifier",
+    "TeamsUserAADId":"<Teams User AAD ID>",
+    "AnotherUser":"ACS User ID",
+    "CalleeUserIndentifier":"ACS configured user identifier to be called"
   }
 
 }

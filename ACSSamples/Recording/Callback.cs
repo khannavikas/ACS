@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.WindowsAzure.Storage.Blob.Protocol;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
@@ -111,6 +112,7 @@ namespace Recording
             }
             catch (Exception ex)
             {
+                throw;
                 // handle exception
             }
 
@@ -139,12 +141,22 @@ namespace Recording
                 StartRecordingOptions recordingOptions = new StartRecordingOptions(new ServerCallLocator(serverCallId))
                 {
                     RecordingContent = RecordingContent.Audio,
-                    RecordingChannel = RecordingChannel.Mixed,
+                    RecordingChannel = RecordingChannel.Unmixed,
                     RecordingFormat = RecordingFormat.Wav,
-                    RecordingStateCallbackEndpoint = new Uri(Environment.GetEnvironmentVariable("RecordingStateUrl"))
-                };
+                    RecordingStateCallbackEndpoint = new Uri(Environment.GetEnvironmentVariable("RecordingStateUrl"))                     
+            };
 
-                Response<RecordingStateResult> response = await callAutomationClient.GetCallRecording()
+                var participant = await callAutomationClient.GetCallConnection(callConnectionId).GetParticipantsAsync();
+                //foreach (var item in participant.Value)
+                //{
+                    
+
+                //    recordingOptions.AudioChannelParticipantOrdering.Add(new CommunicationUserIdentifier());
+                //    break;
+                //}
+
+
+                Response <RecordingStateResult> response = await callAutomationClient.GetCallRecording()
                 .StartRecordingAsync(recordingOptions);
 
                 recordingId = response.Value.RecordingId;
@@ -239,6 +251,7 @@ namespace Recording
             }
             catch (Exception ex)
             {
+                
                 Console.WriteLine(ex.ToString());
                 throw;
             }
@@ -395,6 +408,8 @@ namespace Recording
             });
 
             Class1[] x = await ts.ConfigureAwait(false);
+
+            Console.WriteLine(DateTime.UtcNow + " --- "+ x[0].data.state.ToString());
 
             return new OkResult();
 

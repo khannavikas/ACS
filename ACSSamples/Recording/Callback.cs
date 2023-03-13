@@ -136,6 +136,8 @@ namespace Recording
                 }
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
 
+               // callAutomationClient.GetCallRecording().StartRecording
+
                 // var part = await callAutomationClient.GetCallConnection(callConnectionId).GetParticipantsAsync();
 
                 StartRecordingOptions recordingOptions = new StartRecordingOptions(new ServerCallLocator(serverCallId))
@@ -147,17 +149,19 @@ namespace Recording
             };
 
                 var participant = await callAutomationClient.GetCallConnection(callConnectionId).GetParticipantsAsync();
-                //foreach (var item in participant.Value)
-                //{
-                    
 
-                //    recordingOptions.AudioChannelParticipantOrdering.Add(new CommunicationUserIdentifier());
-                //    break;
-                //}
+                //  foreach (var item in participant.Value)
+                //  {
 
 
-                Response <RecordingStateResult> response = await callAutomationClient.GetCallRecording()
-                .StartRecordingAsync(recordingOptions);
+                 recordingOptions.AudioChannelParticipantOrdering.Add(new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier")));
+               recordingOptions.AudioChannelParticipantOrdering.Add(new PhoneNumberIdentifier("+17882881402"));
+                //  break;
+                //   }
+
+
+                Response <RecordingStateResult> response =  callAutomationClient.GetCallRecording()
+                .StartRecording(recordingOptions);
 
                 recordingId = response.Value.RecordingId;
 
@@ -327,6 +331,7 @@ namespace Recording
                     BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, recordingFileName);
                     var sasUri = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1));
 
+                    Console.Write(sasUri);
                     await SpeechService.ConvertAudioToText(sasUri);
 
                 }
@@ -391,6 +396,32 @@ namespace Recording
 
         }
 
+
+        [FunctionName("AddPhoneUser")]
+        public static async Task<IActionResult> AddPhoneUser(
+     [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+      ILogger log)
+        {
+            try
+            {
+              
+                PhoneNumberIdentifier phone = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("TargetPhoneNumber"));
+                PhoneNumberIdentifier caller = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("ACSCallerPhoneNumber"));
+                CallInvite ci = new CallInvite(phone, caller);
+                CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
+
+                await callAutomationClient.GetCallConnection(callConnectionId).AddParticipantAsync(ci);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+
+            return new OkObjectResult("Ok");
+
+        }
 
 
         [FunctionName("RecordingState")]

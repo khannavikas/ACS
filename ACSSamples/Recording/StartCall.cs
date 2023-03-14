@@ -85,7 +85,7 @@ namespace Recording
              [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            var url = "https://acssolutionstorage.blob.core.windows.net/acs/0-eus-d1-a65e90fb5d62ce9d4c5f1c7969629b73-0-2023-02-16T08%3A09%3A03.6876504Z.wav?sp=r&st=2023-02-17T05:57:37Z&se=2023-02-17T13:57:37Z&spr=https&sv=2021-06-08&sr=b&sig=IWX5RxwMXbbGBHCFcs%2BkGxG9zYAZIWyo3lab6R9YN9E%3D";
+            var url = "";
 
             await SpeechService.ConvertAudioToText(new Uri(url));
 

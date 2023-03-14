@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.CognitiveServices.Speech;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -17,6 +18,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Buffers.Text;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,6 +31,8 @@ namespace Recording
         private static string serverCallId = "";
         private static string recordingId = "";
         private static string callConnectionId = "";
+        private static ConcurrentDictionary<string, string> callConnectionMap = new ConcurrentDictionary<string, string>();
+        private static ConcurrentDictionary<string, string> callConnectionRecordingMap = new ConcurrentDictionary<string, string>();
 
         [FunctionName("Callback")]
         public static async Task<IActionResult> Run(
@@ -47,7 +51,7 @@ namespace Recording
                 log.LogInformation($"Received events: {binEvents}");
                 EventGridEvent[] eventGridEvents = new List<EventGridEvent>().ToArray();
 
-                if (binEvents != null )
+                if (binEvents != null)
                 {
                     try
                     {
@@ -98,12 +102,45 @@ namespace Recording
                                 var playOptions = new PlayOptions() { Loop = true };
                                 serverCallId = rawEvent["data"]["serverCallId"].ToObject<string>(); //callAutomationClient.GetCallConnection(callConnectionId).GetCallConnectionProperties().Value?.ServerCallId;
                                 callConnectionId = rawEvent["data"]["callConnectionId"].ToObject<string>();
+
+
+                                callConnectionMap.TryAdd(callConnectionId, serverCallId);
+
+                                // play audio then recognize 3-digit DTMF input with pound (#) stop tone
+                                //var recognizeOptions =
+                                //    new CallMediaRecognizeDtmfOptions(CommunicationIdentifier.FromRawId(Environment.GetEnvironmentVariable("CallerUserIdentifier")), 3)
+                                //    {
+                                //        InterruptPrompt = true,
+                                //        InterToneTimeout = TimeSpan.FromSeconds(10),
+                                //        InitialSilenceTimeout = TimeSpan.FromSeconds(5),
+                                //     //   Prompt = new FileSource(new Uri("https://acssolutionstorage.blob.core.windows.net/acs/text.wav?sp=r&st=2023-03-14T00:40:02Z&se=2023-03-14T08:40:02Z&spr=https&sv=2021-12-02&sr=b&sig=9P7ldxukyNXkO1NmQVaFGgP9IhPKfMVi%2FLoOliowtY0%3D")),
+                                //        StopTones = new[] { DtmfTone.Pound },
+                                //        OperationContext = "MainMenu"
+                                //    };
+                                //await callAutomationClient.GetCallConnection(callConnectionId)
+                                //    .GetCallMedia()
+                                //    .StartRecognizingAsync(recognizeOptions);
                                 break;
 
                             case "Microsoft.Communication.TeamsRecordingStateChanged":
                                 recordingId = rawEvent["data"]["recordingId"].ToObject<string>();
                                 //var part = await callAutomationClient.GetCallConnection(callConnectionId).GetParticipantsAsync();
 
+
+                                break;
+
+                            case "Microsoft.Communication.CallDisconnected":
+                                callConnectionId = rawEvent["data"]["callConnectionId"].ToObject<string>();
+
+                                if(callConnectionMap.ContainsKey(callConnectionId))
+                                {
+                                    callConnectionMap.Keys.Remove(callConnectionId);
+                                }
+
+                                if (callConnectionRecordingMap.ContainsKey(callConnectionId))
+                                {
+                                    callConnectionRecordingMap.Keys.Remove(callConnectionId);
+                                }
 
                                 break;
                         }
@@ -127,51 +164,56 @@ namespace Recording
         {
             try
             {
-                var x = 1;
+                
+                var connectionId = ValidateGetConnectionId(req);
 
-                if (req.GetQueryParameterDictionary().ContainsKey("serverCallId"))
-                {
-                    serverCallId = (req.GetQueryParameterDictionary()["serverCallId"]);
 
-                }
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
 
-               // callAutomationClient.GetCallRecording().StartRecording
+                // callAutomationClient.GetCallRecording().StartRecording
 
                 // var part = await callAutomationClient.GetCallConnection(callConnectionId).GetParticipantsAsync();
 
-                StartRecordingOptions recordingOptions = new StartRecordingOptions(new ServerCallLocator(serverCallId))
+                StartRecordingOptions recordingOptions = new StartRecordingOptions(new ServerCallLocator(callConnectionMap[connectionId]))
                 {
                     RecordingContent = RecordingContent.Audio,
                     RecordingChannel = RecordingChannel.Unmixed,
                     RecordingFormat = RecordingFormat.Wav,
-                    RecordingStateCallbackEndpoint = new Uri(Environment.GetEnvironmentVariable("RecordingStateUrl"))                     
-            };
+                    RecordingStateCallbackEndpoint = new Uri(Environment.GetEnvironmentVariable("RecordingStateUrl"))
+                };
 
-                var participant = await callAutomationClient.GetCallConnection(callConnectionId).GetParticipantsAsync();
+                var participant = await callAutomationClient.GetCallConnection(connectionId).GetParticipantsAsync();
 
                 //  foreach (var item in participant.Value)
                 //  {
 
 
-                 recordingOptions.AudioChannelParticipantOrdering.Add(new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier")));
-               recordingOptions.AudioChannelParticipantOrdering.Add(new PhoneNumberIdentifier("+17882881402"));
+                //    recordingOptions.AudioChannelParticipantOrdering.Add(new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier")));
+                //recordingOptions.AudioChannelParticipantOrdering.Add(new PhoneNumberIdentifier("+17882881402"));
                 //  break;
                 //   }
 
 
-                Response <RecordingStateResult> response =  callAutomationClient.GetCallRecording()
+                Response<RecordingStateResult> response = callAutomationClient.GetCallRecording()
                 .StartRecording(recordingOptions);
 
                 recordingId = response.Value.RecordingId;
+
+                if(!callConnectionRecordingMap.ContainsKey(connectionId))
+                {
+                    callConnectionRecordingMap.TryAdd(connectionId, recordingId);
+                }
+                else
+                {
+                    callConnectionRecordingMap[connectionId] = recordingId;
+
+                }
 
 
             }
             catch (Exception ex)
             {
-                CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-
-                var part = await callAutomationClient.GetCallConnection(callConnectionId).GetParticipantsAsync();
+                Console.WriteLine(ex.ToString());
                 throw;
                 // handle exception
             }
@@ -188,8 +230,10 @@ namespace Recording
         {
             try
             {
+                var connectionId = ValidateGetConnectionId(req);
+
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-                var stopRecording = await callAutomationClient.GetCallRecording().StopRecordingAsync(recordingId);
+                var stopRecording = await callAutomationClient.GetCallRecording().StopRecordingAsync(callConnectionRecordingMap[connectionId]);
             }
             catch (Exception ex)
             {
@@ -209,13 +253,16 @@ namespace Recording
         {
             try
             {
+                var connectionId = ValidateGetConnectionId(req);
+
+
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-                var stopRecording = await callAutomationClient.GetCallRecording().PauseRecordingAsync(recordingId);
+                var stopRecording = await callAutomationClient.GetCallRecording().PauseRecordingAsync(callConnectionRecordingMap[connectionId]);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                return new ExceptionResult(ex,true);
+                return new ExceptionResult(ex, true);
             }
 
             return new OkResult();
@@ -229,8 +276,12 @@ namespace Recording
         {
             try
             {
+
+                var connectionId = ValidateGetConnectionId(req);
+
+
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-                var stopRecording = await callAutomationClient.GetCallRecording().ResumeRecordingAsync(recordingId);
+                var stopRecording = await callAutomationClient.GetCallRecording().ResumeRecordingAsync(callConnectionRecordingMap[connectionId]);
             }
             catch (Exception ex)
             {
@@ -248,19 +299,24 @@ namespace Recording
     [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
      ILogger log)
         {
+            RecordingStateResult recordingState;
             try
             {
+
+                var connectionId = ValidateGetConnectionId(req);
+
+
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-                var stopRecording = await callAutomationClient.GetCallRecording().GetRecordingStateAsync(recordingId);
+                recordingState = await callAutomationClient.GetCallRecording().GetRecordingStateAsync(callConnectionRecordingMap[connectionId]);
             }
             catch (Exception ex)
             {
-                
+
                 Console.WriteLine(ex.ToString());
                 throw;
             }
 
-            return new OkResult();
+            return new OkObjectResult(recordingState);
 
         }
 
@@ -331,8 +387,11 @@ namespace Recording
                     BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, recordingFileName);
                     var sasUri = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1));
 
+
                     Console.Write(sasUri);
-                    await SpeechService.ConvertAudioToText(sasUri);
+
+                    return new OkObjectResult(sasUri);
+                    //   await SpeechService.ConvertAudioToText(sasUri);
 
                 }
             }
@@ -353,13 +412,16 @@ namespace Recording
         ILogger log)
         {
 
+            var connectionId = ValidateGetConnectionId(req);
+
+
             MicrosoftTeamsUserIdentifier teamsUserIdentifier = new MicrosoftTeamsUserIdentifier(Environment.GetEnvironmentVariable("TeamsUserAADId"));
             CallInvite ci = new CallInvite(teamsUserIdentifier);
 
             try
             {
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-                var x = await callAutomationClient.GetCallConnection(callConnectionId).AddParticipantAsync(ci);
+                var x = await callAutomationClient.GetCallConnection(connectionId).AddParticipantAsync(ci);
             }
             catch (Exception ex)
             {
@@ -379,11 +441,13 @@ namespace Recording
         {
             try
             {
+                var connectionId = ValidateGetConnectionId(req);
+
                 CommunicationUserIdentifier cui = new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("AnotherUser"));
                 CallInvite ci = new CallInvite(cui);
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
 
-                await callAutomationClient.GetCallConnection(callConnectionId).AddParticipantAsync(ci);
+                await callAutomationClient.GetCallConnection(connectionId).AddParticipantAsync(ci);
 
             }
             catch (Exception ex)
@@ -404,13 +468,13 @@ namespace Recording
         {
             try
             {
-              
+                var connectionId = ValidateGetConnectionId(req);
                 PhoneNumberIdentifier phone = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("TargetPhoneNumber"));
                 PhoneNumberIdentifier caller = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("ACSCallerPhoneNumber"));
                 CallInvite ci = new CallInvite(phone, caller);
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
 
-                await callAutomationClient.GetCallConnection(callConnectionId).AddParticipantAsync(ci);
+                await callAutomationClient.GetCallConnection(connectionId).AddParticipantAsync(ci);
 
             }
             catch (Exception ex)
@@ -420,6 +484,30 @@ namespace Recording
             }
 
             return new OkObjectResult("Ok");
+
+        }
+
+
+
+
+        private static string ValidateGetConnectionId(HttpRequest req)
+        {
+
+            string callConnectionId1 = "";
+
+            if (req.GetQueryParameterDictionary().ContainsKey("callConnectionId"))
+            {
+                callConnectionId1 = (req.GetQueryParameterDictionary()["callConnectionId"]);
+
+            }
+
+            if (!callConnectionMap.ContainsKey(callConnectionId1))
+            {
+                throw new Exception($"Provided Call Connection Id {callConnectionId1} does not exists");
+            }
+
+
+            return callConnectionId1;
 
         }
 
@@ -440,9 +528,9 @@ namespace Recording
 
             Class1[] x = await ts.ConfigureAwait(false);
 
-            Console.WriteLine(DateTime.UtcNow + " --- "+ x[0].data.state.ToString());
+            Console.WriteLine(DateTime.UtcNow + " --- " + x[0].data.state.ToString());
 
-            return new OkResult();
+            return new OkObjectResult(x[0].data.state.ToString());
 
         }
 

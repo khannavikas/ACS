@@ -28,12 +28,16 @@ namespace Recording
             CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
             CommunicationUserIdentifier caller = new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier"));
 
-          
+
 
 
             CommunicationUserIdentifier callee = new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier"));
 
-            CallInvite callInvite = new CallInvite(callee);
+            CallInvite callInviteUser = new CallInvite(callee);
+
+            PhoneNumberIdentifier phone = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("TargetPhoneNumber"));
+            PhoneNumberIdentifier callerPhone = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("ACSCallerPhoneNumber"));
+            CallInvite ci = new CallInvite(phone, callerPhone);
 
             // CreateCallOptions callOptions = new CreateCallOptions(callInvite,                 
             //   callbackUri: new Uri(Environment.GetEnvironmentVariable("Callbackurl")));
@@ -54,6 +58,17 @@ namespace Recording
             CreateCallResult call;
             try
             {
+                CallInvite callInvite = null;
+
+                if (req.GetQueryParameterDictionary().ContainsKey("PhoneCall"))
+                {
+                    callInvite = ci;
+                }
+                else
+                {
+                    callInvite = callInviteUser;
+                }
+
                 call = callAutomationClient.CreateCall(callInvite, callbackUri: new Uri(Environment.GetEnvironmentVariable("Callbackurl")));
             }
             catch (Exception ex)
@@ -61,8 +76,6 @@ namespace Recording
                 Console.Write(ex.ToString());
                 throw;
             }
-
-
 
             return new OkObjectResult(call.CallConnection.CallConnectionId);
         }

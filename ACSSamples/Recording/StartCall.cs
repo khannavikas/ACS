@@ -34,10 +34,7 @@ namespace Recording
             CommunicationUserIdentifier callee = new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier"));
 
             CallInvite callInviteUser = new CallInvite(callee);
-
-            PhoneNumberIdentifier phone = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("TargetPhoneNumber"));
-            PhoneNumberIdentifier callerPhone = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("ACSCallerPhoneNumber"));
-            CallInvite ci = new CallInvite(phone, callerPhone);
+                      
 
             // CreateCallOptions callOptions = new CreateCallOptions(callInvite,                 
             //   callbackUri: new Uri(Environment.GetEnvironmentVariable("Callbackurl")));
@@ -62,6 +59,9 @@ namespace Recording
 
                 if (req.GetQueryParameterDictionary().ContainsKey("PhoneCall"))
                 {
+                    PhoneNumberIdentifier phone = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("TargetPhoneNumber"));
+                    PhoneNumberIdentifier callerPhone = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("ACSCallerPhoneNumber"));
+                    CallInvite ci = new CallInvite(phone, callerPhone);
                     callInvite = ci;
                 }
                 else

@@ -132,15 +132,10 @@ namespace Recording
                             case "Microsoft.Communication.CallDisconnected":
                                 callConnectionId = rawEvent["data"]["callConnectionId"].ToObject<string>();
 
-                                if(callConnectionMap.ContainsKey(callConnectionId))
-                                {
-                                    callConnectionMap.Keys.Remove(callConnectionId);
-                                }
+                                callConnectionMap.TryRemove(callConnectionId, out string servercallId);
 
-                                if (callConnectionRecordingMap.ContainsKey(callConnectionId))
-                                {
-                                    callConnectionRecordingMap.Keys.Remove(callConnectionId);
-                                }
+
+                                callConnectionRecordingMap.TryRemove(callConnectionId, out string recording);
 
                                 break;
                         }
@@ -164,7 +159,7 @@ namespace Recording
         {
             try
             {
-                
+
                 var connectionId = ValidateGetConnectionId(req);
 
 
@@ -199,7 +194,7 @@ namespace Recording
 
                 recordingId = response.Value.RecordingId;
 
-                if(!callConnectionRecordingMap.ContainsKey(connectionId))
+                if (!callConnectionRecordingMap.ContainsKey(connectionId))
                 {
                     callConnectionRecordingMap.TryAdd(connectionId, recordingId);
                 }

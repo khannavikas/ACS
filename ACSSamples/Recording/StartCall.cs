@@ -141,10 +141,15 @@ namespace Recording
                 }
                 var jsonObject = JsonNode.Parse(eventGridEvent.Data).AsObject();
                 var callerId = (string)(jsonObject["from"]["rawId"]);
+                var userType = (string)(jsonObject["from"]["kind"]);
                 var incomingCallContext = (string)jsonObject["incomingCallContext"];
                 var callbackUri = new Uri(Environment.GetEnvironmentVariable("Callbackurl"));
 
-                AnswerCallResult answerCallResult = await ca.AnswerCallAsync(incomingCallContext, callbackUri);
+                // Answer Call only if from Phone user
+                if (userType != "communicationUser")
+                {
+                    AnswerCallResult answerCallResult = await ca.AnswerCallAsync(incomingCallContext, callbackUri);
+                }
             }
 
 

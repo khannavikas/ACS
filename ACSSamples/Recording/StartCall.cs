@@ -11,6 +11,9 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Azure.Messaging.EventGrid;
+using Azure.Messaging.EventGrid.SystemEvents;
+using System.Text.Json.Nodes;
 
 namespace Recording
 {
@@ -98,6 +101,51 @@ namespace Recording
             var url = "";
 
             await SpeechService.ConvertAudioToText(new Uri(url));
+
+
+            return new OkResult();
+        }
+
+
+
+        [FunctionName("IncomingCall")]
+        public static async Task<IActionResult> IncomingCall(
+             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            CallAutomationClient ca = CallAutomationFactory.GetAutomationClient();
+            
+            // Don't move this line below, it should be before reading from stream
+            var content = await req.ReadAsStringAsync();
+
+            string response = string.Empty;
+            BinaryData events = await BinaryData.FromStreamAsync(req.Body);
+            log.LogInformation($"Received events: {events}");
+
+            EventGridEvent[] eventGridEvents = EventGridEvent.ParseMany(events);
+
+
+            foreach (var eventGridEvent in eventGridEvents)
+            {
+                if (eventGridEvent.TryGetSystemEventData(out object eventData))
+                {
+                    // Handle the webhook subscription validation event.
+                    if (eventData is SubscriptionValidationEventData subscriptionValidationEventData)
+                    {
+                        var responseData = new SubscriptionValidationResponse
+                        {
+                            ValidationResponse = subscriptionValidationEventData.ValidationCode
+                        };
+                        return new OkObjectResult(responseData);
+                    }
+                }
+                var jsonObject = JsonNode.Parse(eventGridEvent.Data).AsObject();
+                var callerId = (string)(jsonObject["from"]["rawId"]);
+                var incomingCallContext = (string)jsonObject["incomingCallContext"];
+                var callbackUri = new Uri(Environment.GetEnvironmentVariable("Callbackurl"));
+
+                AnswerCallResult answerCallResult = await ca.AnswerCallAsync(incomingCallContext, callbackUri);
+            }
 
 
             return new OkResult();

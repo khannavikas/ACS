@@ -1,11 +1,13 @@
 using Azure;
 using Azure.Communication;
 using Azure.Communication.CallAutomation;
+using Azure.Core;
 using Azure.Messaging.EventGrid;
 using Azure.Messaging.EventGrid.SystemEvents;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Internal;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.CognitiveServices.Speech;
@@ -23,6 +25,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using static Microsoft.WindowsAzure.Storage.Shared.Protocol.Constants;
 
 namespace Recording
 {
@@ -31,8 +34,10 @@ namespace Recording
         private static string serverCallId = "";
         private static string recordingId = "";
         private static string callConnectionId = "";
+            private static string correlationId = "";
         private static ConcurrentDictionary<string, string> callConnectionMap = new ConcurrentDictionary<string, string>();
         private static ConcurrentDictionary<string, string> callConnectionRecordingMap = new ConcurrentDictionary<string, string>();
+        private static ConcurrentDictionary<string, string> callConnectionCallIdMap = new ConcurrentDictionary<string, string>();
 
         [FunctionName("Callback")]
         public static async Task<IActionResult> Run(
@@ -102,9 +107,11 @@ namespace Recording
                                 var playOptions = new PlayOptions() { Loop = true };
                                 serverCallId = rawEvent["data"]["serverCallId"].ToObject<string>(); //callAutomationClient.GetCallConnection(callConnectionId).GetCallConnectionProperties().Value?.ServerCallId;
                                 callConnectionId = rawEvent["data"]["callConnectionId"].ToObject<string>();
+                                correlationId = rawEvent["data"]["correlationId"].ToObject<string>();
 
 
                                 callConnectionMap.TryAdd(callConnectionId, serverCallId);
+                                callConnectionCallIdMap.TryAdd(callConnectionId, correlationId);
 
                                 // play audio then recognize 3-digit DTMF input with pound (#) stop tone
                                 //var recognizeOptions =
@@ -136,6 +143,7 @@ namespace Recording
 
 
                                 callConnectionRecordingMap.TryRemove(callConnectionId, out string recording);
+                                callConnectionCallIdMap.TryRemove(callConnectionId, out string callId);
 
                                 break;
                         }
@@ -172,7 +180,7 @@ namespace Recording
                 StartRecordingOptions recordingOptions = new StartRecordingOptions(new ServerCallLocator(callConnectionMap[connectionId]))
                 {
                     RecordingContent = RecordingContent.Audio,
-                    RecordingChannel = RecordingChannel.Unmixed,
+                    RecordingChannel = RecordingChannel.Mixed,
                     RecordingFormat = RecordingFormat.Wav,
                     RecordingStateCallbackEndpoint = new Uri(Environment.GetEnvironmentVariable("RecordingStateUrl"))
                 };
@@ -223,12 +231,16 @@ namespace Recording
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
              ILogger log)
         {
+            IEnumerable<string> vals;
             try
             {
                 var connectionId = ValidateGetConnectionId(req);
 
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
                 var stopRecording = await callAutomationClient.GetCallRecording().StopRecordingAsync(callConnectionRecordingMap[connectionId]);
+               
+              //  var hasChainId = stopRecording.Headers.TryGetValues("X-Microsoft-Skype-Chain-ID", out vals);
+                
             }
             catch (Exception ex)
             {
@@ -236,7 +248,7 @@ namespace Recording
                 return new ExceptionResult(ex, true);
             }
 
-            return new OkResult();
+            return new OkObjectResult(callConnectionCallIdMap[callConnectionId]);
 
         }
 
@@ -331,6 +343,8 @@ namespace Recording
 
             EventGridEvent[] eventGridEvents = EventGridEvent.ParseMany(events);
 
+           
+
             foreach (EventGridEvent eventGridEvent in eventGridEvents)
             {
                 // Handle system events for webhook handshake
@@ -351,9 +365,12 @@ namespace Recording
                 }
             }
 
+            Uri sasurl = new Uri("http://localhost");
 
+            var callId = eventGridEvents[0].Subject.Split("/")[3];
             try
             {
+               
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
 
                 var payload = JsonConvert.DeserializeObject<IEnumerable<RecordingFileStatusUpdatedDataPayload>>(content).FirstOrDefault();
@@ -367,8 +384,7 @@ namespace Recording
                     var recordingStreamResult = callResponse.GetRawResponse().Status.ToString();
 
 
-                    var recordingFileName = item.DocumentId + "-" + item.Index + "-" +
-                        payload.Data.RecordingStartTime + ".wav";
+                    var recordingFileName = callId + ".wav";
 
                     var blobStorageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
                     var blobStorageContainerName = Environment.GetEnvironmentVariable("ContainerName");
@@ -380,12 +396,12 @@ namespace Recording
                     var uploadResultStatus = uploadResult.GetRawResponse().Status.ToString();
 
                     BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, recordingFileName);
-                    var sasUri = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1));
+                    sasurl = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1));
 
 
-                    Console.Write(sasUri);
+                   // Console.Write(sasUri);
 
-                    return new OkObjectResult(sasUri);
+                   // return new OkObjectResult(sasUri);
                     //   await SpeechService.ConvertAudioToText(sasUri);
 
                 }
@@ -396,7 +412,7 @@ namespace Recording
                 throw;
             }
 
-            return new OkResult();
+            return new OkObjectResult(sasurl);
 
         }
 
@@ -482,6 +498,50 @@ namespace Recording
 
         }
 
+
+
+
+        [FunctionName("DownLoadRecordingLink")]
+        public static async Task<IActionResult> DownloadRecordingLink(
+     [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+      ILogger log)
+        {
+
+            string url;
+            try
+            {
+                string callId = "";
+
+                if (req.GetQueryParameterDictionary().ContainsKey("callId"))
+                {
+                    callId = (req.GetQueryParameterDictionary()["callId"]);
+
+                }
+
+                if (string.IsNullOrEmpty(callId))
+                {
+                    throw new ArgumentException("CallId not provided");
+                }
+
+                var blobStorageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+                var blobStorageContainerName = Environment.GetEnvironmentVariable("ContainerName");
+                var container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName);
+                var recordingFileName = callId + ".wav";
+                BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, recordingFileName);
+                url = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1)).ToString();
+               
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+
+            return new OkObjectResult(url);
+
+        }
 
 
 

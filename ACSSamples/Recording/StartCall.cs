@@ -26,15 +26,25 @@ namespace Recording
 
 
             CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-            CommunicationUserIdentifier caller = new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier"));
+            //   CommunicationUserIdentifier caller = new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier"));
 
 
+            CommunicationUserIdentifier targetUser = null;
+
+            if (req.GetQueryParameterDictionary().ContainsKey("userid"))
+            {
+                targetUser = new CommunicationUserIdentifier(req.GetQueryParameterDictionary()["userid"]);
+
+            }
+            else
+            {
+                targetUser = new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier"));
+
+            }
 
 
-            CommunicationUserIdentifier callee = new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier"));
+            CallInvite callInviteUser = new CallInvite(targetUser);
 
-            CallInvite callInviteUser = new CallInvite(callee);
-                      
 
             // CreateCallOptions callOptions = new CreateCallOptions(callInvite,                 
             //   callbackUri: new Uri(Environment.GetEnvironmentVariable("Callbackurl")));

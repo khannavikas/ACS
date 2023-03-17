@@ -191,8 +191,9 @@ namespace Recording
                 //  {
 
 
-                //    recordingOptions.AudioChannelParticipantOrdering.Add(new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier")));
+                //recordingOptions.AudioChannelParticipantOrdering.Add(new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier")));
                 //recordingOptions.AudioChannelParticipantOrdering.Add(new PhoneNumberIdentifier("+17882881402"));
+
                 //  break;
                 //   }
 
@@ -470,6 +471,57 @@ namespace Recording
             return new OkObjectResult("Ok");
 
         }
+
+
+        [FunctionName("RefreshCache")]
+        public static async Task<IActionResult> RefreshCache(
+       [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+        ILogger log)
+        {
+            try
+            {
+                callConnectionCallIdMap.Clear();
+                callConnectionMap.Clear();
+                callConnectionRecordingMap.Clear();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+
+            return new OkObjectResult("Ok");
+
+        }
+
+
+
+
+        [FunctionName("GetCache")]
+        public static async Task<IActionResult> GetCache(
+       [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+        ILogger log)
+        {
+            try
+            {
+                return new OkObjectResult(
+                    "CallServerIdMap" + JsonConvert.SerializeObject(callConnectionMap)
+                   + "CallIdMap" + JsonConvert.SerializeObject(callConnectionCallIdMap)
+                    + "CallRecordingMap" + JsonConvert.SerializeObject(callConnectionRecordingMap)
+                    );
+               
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+
+            return new OkObjectResult("Ok");
+
+        }
+
+
 
 
         [FunctionName("AddPhoneUser")]

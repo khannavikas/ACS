@@ -73,7 +73,8 @@ this way:
     "CallerUserIdentifier": "ACS configured user identifier",
     "TeamsUserAADId":"<Teams User AAD ID>",
     "AnotherUser":"ACS User ID",
-    "CalleeUserIndentifier":"ACS configured user identifier to be called"
+    "CalleeUserIndentifier":"ACS configured user identifier to be called","PMAUrl": ""
+    "PMAUrl": ""
   }
 
 }

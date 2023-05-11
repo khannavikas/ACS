@@ -26,15 +26,24 @@ namespace Recording
             ILogger log)
         {
 
+            string x = null;
+
+         //  var b= x.ToString();
 
 
-            CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
+            RecordingFileStatusUpdatedDataPayload payload = new RecordingFileStatusUpdatedDataPayload();
+            payload.Data = new Data();
+           payload.Data.RecordingStorageInfo = new RecordingStorageInfo() { };
+            payload.Data.RecordingStorageInfo.RecordingChunks = new List<RecordingChunk>().ToArray();
+
+
+           CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
             //   CommunicationUserIdentifier caller = new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier"));
 
 
             CommunicationUserIdentifier targetUser = null;
 
-            if (req.GetQueryParameterDictionary().ContainsKey("userid"))
+            if (req.GetQueryParameterDictionary().ContainsKey("userid") && !string.IsNullOrEmpty(req.GetQueryParameterDictionary()["userid"]))
             {
                 targetUser = new CommunicationUserIdentifier(req.GetQueryParameterDictionary()["userid"]);
 
@@ -45,7 +54,7 @@ namespace Recording
 
             }
 
-
+            
             CallInvite callInviteUser = new CallInvite(targetUser);
 
 

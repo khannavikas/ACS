@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Audio;
 using Azure.Storage.Blobs;
+using System.Text;
 
 namespace Recording
 {
@@ -15,10 +16,17 @@ namespace Recording
     {
         public static async Task ConvertAudioToText(Uri filePath)
         {
+
+            OpenAIClient ai = new OpenAIClient(string.Empty);
+
             BlobClient blobClient = new BlobClient(filePath);
 
             var reader = new BinaryReader(blobClient.OpenRead());
             var audioInputStream = AudioInputStream.CreatePushStream();
+
+            TextWriter tw = new StringWriter();
+
+
 
 
             byte[] readBytes;
@@ -29,6 +37,8 @@ namespace Recording
             } while (readBytes.Length > 0);
 
             var audioConfig = AudioConfig.FromStreamInput(audioInputStream);
+
+            StringBuilder sb = new StringBuilder();
 
 
             // Create the SpeechConfig object with your Speech-to-Text endpoint ID and authentication token
@@ -43,14 +53,17 @@ namespace Recording
                 // Subscribes to events. 
                 recognizer.Recognizing += (s, e) =>
                 {
-                    Console.WriteLine($"RECOGNIZING: Text={e.Result.Text}");
+                 //   Console.WriteLine($"RECOGNIZING: Text={e.Result.Text}");
                 };
 
                 recognizer.Recognized += (s, e) =>
                 {
                     if (e.Result.Reason == ResultReason.RecognizedSpeech)
                     {
-                        Console.WriteLine($"RECOGNIZED: Text={e.Result.Text}");
+
+                        //Console.WriteLine($"RECOGNIZED: Text={e.Result.Text}");
+                        sb.AppendLine(e.Result.Text);
+                        tw.WriteLineAsync(e.Result.Text);
                     }
                     else if (e.Result.Reason == ResultReason.NoMatch)
                     {
@@ -93,6 +106,17 @@ namespace Recording
 
                 // Stops recognition. 
                 await recognizer.StopContinuousRecognitionAsync().ConfigureAwait(false);
+                await tw.FlushAsync();
+
+
+
+              await  ai.RedactText(sb.ToString());
+
+                return;
+
+                //   await ai.GenerateText($"Summarize conversation between 2 in 5 lines: {sb.ToString()}");
+                // await ai.GenerateText($"Summarise what was the solution in 2 lines: {sb.ToString()}");
+                //await ai.GenerateText($"Was issue fixed?: {sb.ToString()}");
 
             }
 

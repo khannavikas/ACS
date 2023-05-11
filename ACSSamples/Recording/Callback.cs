@@ -1,31 +1,21 @@
-using Azure;
 using Azure.Communication;
 using Azure.Communication.CallAutomation;
-using Azure.Core;
 using Azure.Messaging.EventGrid;
 using Azure.Messaging.EventGrid.SystemEvents;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Internal;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.CognitiveServices.Speech;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Logging;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.WindowsAzure.Storage.Blob.Protocol;
-using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Buffers.Text;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using static Microsoft.WindowsAzure.Storage.Shared.Protocol.Constants;
 
 namespace Recording
 {
@@ -34,7 +24,7 @@ namespace Recording
         private static string serverCallId = "";
         private static string recordingId = "";
         private static string callConnectionId = "";
-            private static string correlationId = "";
+        private static string correlationId = "";
         private static ConcurrentDictionary<string, string> callConnectionMap = new ConcurrentDictionary<string, string>();
         private static ConcurrentDictionary<string, string> callConnectionRecordingMap = new ConcurrentDictionary<string, string>();
         private static ConcurrentDictionary<string, string> callConnectionCallIdMap = new ConcurrentDictionary<string, string>();
@@ -50,6 +40,8 @@ namespace Recording
 
                 // Don't move this line below, it should be before reading from stream
                 var content = await req.ReadAsStringAsync();
+
+
 
                 string response = string.Empty;
                 BinaryData binEvents = await BinaryData.FromStreamAsync(req.Body);
@@ -104,7 +96,7 @@ namespace Recording
                             case "Microsoft.Communication.CallConnected":
 
                                 // var playSource = new FileSource(new Uri($"{TextToSpeech.BlobStoreBaseUri}/{TextToSpeech.SpeechContainerName}/{callConnectionId}.wav"));
-                                var playOptions = new PlayOptions() { Loop = true };
+                           //     var playOptions = new PlayOptions() { Loop = true };
                                 serverCallId = rawEvent["data"]["serverCallId"].ToObject<string>(); //callAutomationClient.GetCallConnection(callConnectionId).GetCallConnectionProperties().Value?.ServerCallId;
                                 callConnectionId = rawEvent["data"]["callConnectionId"].ToObject<string>();
                                 correlationId = rawEvent["data"]["correlationId"].ToObject<string>();
@@ -112,6 +104,8 @@ namespace Recording
 
                                 callConnectionMap.TryAdd(callConnectionId, serverCallId);
                                 callConnectionCallIdMap.TryAdd(callConnectionId, correlationId);
+
+                                var hasChainId = req.Headers["X-Microsoft-Skype-Chain-ID"];
 
                                 // play audio then recognize 3-digit DTMF input with pound (#) stop tone
                                 //var recognizeOptions =
@@ -127,12 +121,20 @@ namespace Recording
                                 //await callAutomationClient.GetCallConnection(callConnectionId)
                                 //    .GetCallMedia()
                                 //    .StartRecognizingAsync(recognizeOptions);
+
+                                CommunicationUserIdentifier cui = new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier"));
+                                CallInvite ci = new CallInvite(cui);
+
+
+                                //   await callAutomationClient.GetCallConnection(callConnectionId).AddParticipantAsync(ci);
+
                                 break;
 
                             case "Microsoft.Communication.TeamsRecordingStateChanged":
                                 recordingId = rawEvent["data"]["recordingId"].ToObject<string>();
                                 //var part = await callAutomationClient.GetCallConnection(callConnectionId).GetParticipantsAsync();
-
+                                Console.WriteLine("TeamsRecordingStatus");
+                                Console.WriteLine(JsonConvert.SerializeObject(rawEvent));
 
                                 break;
 
@@ -167,39 +169,46 @@ namespace Recording
         {
             try
             {
+                string serverCallId = null;
+                if (req.GetQueryParameterDictionary().ContainsKey("servercallId"))
+                {
+                    serverCallId = (req.GetQueryParameterDictionary()["servercallId"]);
+                }
 
                 var connectionId = ValidateGetConnectionId(req);
 
 
+                if (string.IsNullOrEmpty(serverCallId))
+                {                  
+                    serverCallId = callConnectionMap[connectionId];
+                }
+
+             
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
 
-                // callAutomationClient.GetCallRecording().StartRecording
-
-                // var part = await callAutomationClient.GetCallConnection(callConnectionId).GetParticipantsAsync();
-
-                StartRecordingOptions recordingOptions = new StartRecordingOptions(new ServerCallLocator(callConnectionMap[connectionId]))
+                StartRecordingOptions recordingOptions = new StartRecordingOptions(new ServerCallLocator(serverCallId))
                 {
                     RecordingContent = RecordingContent.Audio,
-                    RecordingChannel = RecordingChannel.Mixed,
+                    RecordingChannel = RecordingChannel.Unmixed ,
                     RecordingFormat = RecordingFormat.Wav,
-                    RecordingStateCallbackEndpoint = new Uri(Environment.GetEnvironmentVariable("RecordingStateUrl"))
+                    
+                    RecordingStateCallbackUri = new Uri(Environment.GetEnvironmentVariable("RecordingStateUrl"))
                 };
 
-                var participant = await callAutomationClient.GetCallConnection(connectionId).GetParticipantsAsync();
+                recordingOptions.AudioChannelParticipantOrdering.Add(new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier")));
 
-                //  foreach (var item in participant.Value)
-                //  {
+             //   var participant = await callAutomationClient.GetCallConnection(connectionId).GetParticipantsAsync();
 
+                var start = DateTime.UtcNow;
+                var response = await callAutomationClient.GetCallRecording()
+                  .StartAsync(recordingOptions);
 
-                //recordingOptions.AudioChannelParticipantOrdering.Add(new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("CalleeUserIndentifier")));
-                //recordingOptions.AudioChannelParticipantOrdering.Add(new PhoneNumberIdentifier("+17882881402"));
+                var end = DateTime.UtcNow;
 
-                //  break;
-                //   }
+                TimeSpan ts = end - start;
 
+                Console.WriteLine($"Time to Start Recording - {ts.TotalMilliseconds}");
 
-                Response<RecordingStateResult> response = callAutomationClient.GetCallRecording()
-                .StartRecording(recordingOptions);
 
                 recordingId = response.Value.RecordingId;
 
@@ -210,16 +219,12 @@ namespace Recording
                 else
                 {
                     callConnectionRecordingMap[connectionId] = recordingId;
-
                 }
-
-
-            }
+            }   
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                throw;
-                // handle exception
+                throw;                
             }
 
             return new OkObjectResult(recordingId);
@@ -235,13 +240,23 @@ namespace Recording
             IEnumerable<string> vals;
             try
             {
-                var connectionId = ValidateGetConnectionId(req);
+                string recordingId = "";
+
+                if (req.GetQueryParameterDictionary().ContainsKey("recordingId"))
+                {
+                    recordingId = (req.GetQueryParameterDictionary()["recordingId"]);
+                }
+
+                if (string.IsNullOrEmpty(recordingId))
+                {
+                    var connectionId = ValidateGetConnectionId(req);
+                    recordingId = callConnectionRecordingMap[connectionId];
+                }
+
 
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-                var stopRecording = await callAutomationClient.GetCallRecording().StopRecordingAsync(callConnectionRecordingMap[connectionId]);
-               
-              //  var hasChainId = stopRecording.Headers.TryGetValues("X-Microsoft-Skype-Chain-ID", out vals);
-                
+                var stopRecording = await callAutomationClient.GetCallRecording().StopAsync(recordingId);
+
             }
             catch (Exception ex)
             {
@@ -261,11 +276,23 @@ namespace Recording
         {
             try
             {
-                var connectionId = ValidateGetConnectionId(req);
+                string recordingId = "";
+
+                if (req.GetQueryParameterDictionary().ContainsKey("recordingId"))
+                {
+                    recordingId = (req.GetQueryParameterDictionary()["recordingId"]);
+
+                }
+
+                if (string.IsNullOrEmpty(recordingId))
+                {
+                    var connectionId = ValidateGetConnectionId(req);
+                    recordingId = callConnectionRecordingMap[connectionId];
+                }
 
 
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-                var stopRecording = await callAutomationClient.GetCallRecording().PauseRecordingAsync(callConnectionRecordingMap[connectionId]);
+                var stopRecording = await callAutomationClient.GetCallRecording().PauseAsync(recordingId);
             }
             catch (Exception ex)
             {
@@ -284,12 +311,23 @@ namespace Recording
         {
             try
             {
+                string recordingId = "";
 
-                var connectionId = ValidateGetConnectionId(req);
+                if (req.GetQueryParameterDictionary().ContainsKey("recordingId"))
+                {
+                    recordingId = (req.GetQueryParameterDictionary()["recordingId"]);
+
+                }
+
+                if (string.IsNullOrEmpty(recordingId))
+                {
+                    var connectionId = ValidateGetConnectionId(req);
+                    recordingId = callConnectionRecordingMap[connectionId];
+                }
 
 
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-                var stopRecording = await callAutomationClient.GetCallRecording().ResumeRecordingAsync(callConnectionRecordingMap[connectionId]);
+                var stopRecording = await callAutomationClient.GetCallRecording().ResumeAsync(recordingId);
             }
             catch (Exception ex)
             {
@@ -311,11 +349,23 @@ namespace Recording
             try
             {
 
-                var connectionId = ValidateGetConnectionId(req);
+                string recordingId = "";
+
+                if (req.GetQueryParameterDictionary().ContainsKey("recordingId"))
+                {
+                    recordingId = (req.GetQueryParameterDictionary()["recordingId"]);
+
+                }
+
+                if (string.IsNullOrEmpty(recordingId))
+                {
+                    var connectionId = ValidateGetConnectionId(req);
+                    recordingId = callConnectionRecordingMap[connectionId];
+                }
 
 
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-                recordingState = await callAutomationClient.GetCallRecording().GetRecordingStateAsync(callConnectionRecordingMap[connectionId]);
+                recordingState = await callAutomationClient.GetCallRecording().GetStateAsync(recordingId);
             }
             catch (Exception ex)
             {
@@ -324,7 +374,7 @@ namespace Recording
                 throw;
             }
 
-            return new OkObjectResult(recordingState);
+            return new OkObjectResult(recordingState.RecordingState?.ToString());
 
         }
 
@@ -343,8 +393,6 @@ namespace Recording
             log.LogInformation($"Received events: {events}");
 
             EventGridEvent[] eventGridEvents = EventGridEvent.ParseMany(events);
-
-           
 
             foreach (EventGridEvent eventGridEvent in eventGridEvents)
             {
@@ -371,13 +419,14 @@ namespace Recording
             var callId = eventGridEvents[0].Subject.Split("/")[3];
             try
             {
-               
+
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
 
                 var payload = JsonConvert.DeserializeObject<IEnumerable<RecordingFileStatusUpdatedDataPayload>>(content).FirstOrDefault();
 
                 foreach (var item in payload.Data.RecordingStorageInfo.RecordingChunks)
                 {
+
                     var recordingDownloadUri = new Uri(item.ContentLocation);
                     var callResponse = await callAutomationClient.GetCallRecording().DownloadStreamingAsync(recordingDownloadUri);
 
@@ -385,26 +434,48 @@ namespace Recording
                     var recordingStreamResult = callResponse.GetRawResponse().Status.ToString();
 
 
-                    var recordingFileName = callId + ".wav";
+                    var recordingFileName = callId + item.Index + ".wav";
 
                     var blobStorageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
                     var blobStorageContainerName = Environment.GetEnvironmentVariable("ContainerName");
                     var container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName);
 
                     var uploadResult = await container.UploadBlobAsync(recordingFileName,
-                        callResponse.Value);
+                      callResponse.Value);
+
+
+
+                    BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, recordingFileName);
 
                     var uploadResultStatus = uploadResult.GetRawResponse().Status.ToString();
 
-                    BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, recordingFileName);
+
                     sasurl = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1));
 
 
-                   // Console.Write(sasUri);
 
-                   // return new OkObjectResult(sasUri);
-                    //   await SpeechService.ConvertAudioToText(sasUri);
+                    //var metaDataDownloadUri = new Uri(item.MetadataLocation);
+                    //var metaDataResponse = await callAutomationClient.GetCallRecording().DownloadStreamingAsync(metaDataDownloadUri);
 
+                    //var recordingMetaFileName = callId + ".txt";
+
+                    //blobStorageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+                    //blobStorageContainerName = Environment.GetEnvironmentVariable("ContainerName");
+                    //container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName);
+
+                    //var uploadResult = await container.UploadBlobAsync(recordingMetaFileName,
+                    //      metaDataResponse.Value);
+
+                    //var uploadResultStatus = uploadResult.GetRawResponse().Status.ToString();
+
+                    //var blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, recordingMetaFileName);
+                    //sasurl = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1));
+
+                    // Console.Write(sasUri);
+
+
+                    SpeechService.ConvertAudioToText(sasurl);
+                    
                 }
             }
             catch (Exception ex)
@@ -426,8 +497,15 @@ namespace Recording
 
             var connectionId = ValidateGetConnectionId(req);
 
+            string teamsUserId = Environment.GetEnvironmentVariable("TeamsUserAADId");
 
-            MicrosoftTeamsUserIdentifier teamsUserIdentifier = new MicrosoftTeamsUserIdentifier(Environment.GetEnvironmentVariable("TeamsUserAADId"));
+            if (req.GetQueryParameterDictionary().ContainsKey("TeamsUserAADId"))
+            {
+                teamsUserId = (req.GetQueryParameterDictionary()["TeamsUserAADId"]);
+            }
+
+
+            MicrosoftTeamsUserIdentifier teamsUserIdentifier = new MicrosoftTeamsUserIdentifier(teamsUserId);
             CallInvite ci = new CallInvite(teamsUserIdentifier);
 
             try
@@ -455,10 +533,16 @@ namespace Recording
             {
                 var connectionId = ValidateGetConnectionId(req);
 
-                CommunicationUserIdentifier cui = new CommunicationUserIdentifier(Environment.GetEnvironmentVariable("AnotherUser"));
+                var userId = Environment.GetEnvironmentVariable("AnotherUser");
+
+                if (req.GetQueryParameterDictionary().ContainsKey("userId"))
+                {
+                    userId = (req.GetQueryParameterDictionary()["userId"]);
+                }
+
+                CommunicationUserIdentifier cui = new CommunicationUserIdentifier(userId);
                 CallInvite ci = new CallInvite(cui);
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-
                 await callAutomationClient.GetCallConnection(connectionId).AddParticipantAsync(ci);
 
             }
@@ -491,11 +575,7 @@ namespace Recording
             }
 
             return new OkObjectResult("Ok");
-
         }
-
-
-
 
         [FunctionName("GetCache")]
         public static async Task<IActionResult> GetCache(
@@ -509,20 +589,14 @@ namespace Recording
                    + "CallIdMap" + JsonConvert.SerializeObject(callConnectionCallIdMap)
                     + "CallRecordingMap" + JsonConvert.SerializeObject(callConnectionRecordingMap)
                     );
-               
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
                 throw;
             }
-
-            return new OkObjectResult("Ok");
-
         }
-
-
-
 
         [FunctionName("AddPhoneUser")]
         public static async Task<IActionResult> AddPhoneUser(
@@ -532,7 +606,15 @@ namespace Recording
             try
             {
                 var connectionId = ValidateGetConnectionId(req);
-                PhoneNumberIdentifier phone = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("TargetPhoneNumber"));
+
+                string targetPhoneNumber = Environment.GetEnvironmentVariable("TargetPhoneNumber");
+
+                if (req.GetQueryParameterDictionary().ContainsKey("targetPhoneNumber"))
+                {
+                    targetPhoneNumber = (req.GetQueryParameterDictionary()["targetPhoneNumber"]);
+                }
+
+                PhoneNumberIdentifier phone = new PhoneNumberIdentifier(targetPhoneNumber);
                 PhoneNumberIdentifier caller = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("ACSCallerPhoneNumber"));
                 CallInvite ci = new CallInvite(phone, caller);
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
@@ -551,6 +633,46 @@ namespace Recording
         }
 
 
+        [FunctionName("SummariseRecording")]
+        public static async Task<IActionResult> SummariseRecording(
+[HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+ ILogger log)
+        {
+            try
+            {
+                var sasurlId = string.Empty;
+
+                if (req.GetQueryParameterDictionary().ContainsKey("sasurl"))
+                {
+                    sasurlId = (req.GetQueryParameterDictionary()["sasurl"]);
+
+                }
+
+                var recordingFileName = sasurlId + ".wav";
+
+                var blobStorageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+                var blobStorageContainerName = Environment.GetEnvironmentVariable("ContainerName");
+                var container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName);
+
+
+                BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, recordingFileName);
+
+
+                var sasurl = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1));
+
+
+                SpeechService.ConvertAudioToText(sasurl);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+
+            return new OkObjectResult("Ok");
+
+        }
 
 
         [FunctionName("DownLoadRecordingLink")]
@@ -559,7 +681,7 @@ namespace Recording
       ILogger log)
         {
 
-            string url;
+            string url = "";
             try
             {
                 string callId = "";
@@ -567,7 +689,6 @@ namespace Recording
                 if (req.GetQueryParameterDictionary().ContainsKey("callId"))
                 {
                     callId = (req.GetQueryParameterDictionary()["callId"]);
-
                 }
 
                 if (string.IsNullOrEmpty(callId))
@@ -580,10 +701,11 @@ namespace Recording
                 var container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName);
                 var recordingFileName = callId + ".wav";
                 BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, recordingFileName);
-                url = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1)).ToString();
-               
 
-
+                if (blobClient.Exists())
+                {
+                    url = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1)).ToString();
+                }
             }
             catch (Exception ex)
             {
@@ -591,10 +713,14 @@ namespace Recording
                 throw;
             }
 
+            if (string.IsNullOrEmpty(url))
+            {
+                return new NotFoundObjectResult("Recording file not found");
+            }
+
             return new OkObjectResult(url);
 
         }
-
 
 
         private static string ValidateGetConnectionId(HttpRequest req)
@@ -625,8 +751,6 @@ namespace Recording
     ILogger log)
         {
             var content = await req.ReadAsStringAsync();
-
-
 
             Task<Class1[]> ts = Task.Run(() =>
             {

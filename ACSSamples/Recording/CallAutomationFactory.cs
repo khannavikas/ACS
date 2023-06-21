@@ -15,10 +15,11 @@ namespace Recording
 
             var pmaUrl = Environment.GetEnvironmentVariable("PMAUrl");
 
-            CallAutomationClient callAutomationClient;
+            CallAutomationClient callAutomationClient = null;
 
             if (!string.IsNullOrEmpty(pmaUrl))
             {
+               // callAutomationClient = new CallAutomationClient(pmaEndpoint: new Uri(pmaUrl), connectionString);
                 callAutomationClient = new CallAutomationClient(pmaEndpoint: new Uri(pmaUrl), connectionString);
             }
             else
@@ -29,6 +30,11 @@ namespace Recording
 
           
             return callAutomationClient;
+        }
+
+        public static CallAutomationClient GetAutomationClientForDownload()
+        {
+            return new CallAutomationClient(Environment.GetEnvironmentVariable("connectionString"));
         }
 
     }

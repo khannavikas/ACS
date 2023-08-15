@@ -91,6 +91,7 @@ namespace Recording
                     callInvite = callInviteUser;
                 }
 
+              // var t = callAutomationClient.CreateGroupCall(new CreateGroupCallOptions(callInvite, new Uri(Environment.GetEnvironmentVariable("Callbackurl")));
                 call = callAutomationClient.CreateCall(callInvite, callbackUri: new Uri(Environment.GetEnvironmentVariable("Callbackurl")));
             }
             catch (Exception ex)
@@ -153,6 +154,13 @@ namespace Recording
                 var userType = (string)(jsonObject["from"]["kind"]);
                 var incomingCallContext = (string)jsonObject["incomingCallContext"];
                 var callbackUri = new Uri(Environment.GetEnvironmentVariable("Callbackurl"));
+
+                var callee = (string)(jsonObject["to"]["rawId"]);
+
+                if(callerId == "8:acs:8731bbaf-8768-408b-9d6a-79bfba64bf3d_00000016-6bb5-8c55-9806-113a0d000398")
+                {
+                    AnswerCallResult answerCallResult = await ca.AnswerCallAsync(incomingCallContext, callbackUri);
+                }
 
                 // Answer Call only if from Phone user
                 if (userType != "communicationUser")

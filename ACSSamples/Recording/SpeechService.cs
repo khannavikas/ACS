@@ -17,7 +17,7 @@ namespace Recording
         public static async Task ConvertAudioToText(Uri filePath)
         {
 
-            OpenAIClient ai = new OpenAIClient(string.Empty);
+            OpenAIClient1 ai = new OpenAIClient1(string.Empty);
 
             BlobClient blobClient = new BlobClient(filePath);
 
@@ -110,13 +110,16 @@ namespace Recording
 
 
 
-              await  ai.RedactText(sb.ToString());
+                //  await  ai.RedactText(sb.ToString());
 
-                return;
+                //  return;
+                Console.WriteLine(sb.ToString());
 
-                //   await ai.GenerateText($"Summarize conversation between 2 in 5 lines: {sb.ToString()}");
-                // await ai.GenerateText($"Summarise what was the solution in 2 lines: {sb.ToString()}");
-                //await ai.GenerateText($"Was issue fixed?: {sb.ToString()}");
+                await ai.GenerateText($"Summarize conversation between customer and agent between 2 in 5 lines: {sb.ToString()}");
+                await ai.GenerateText($"Summarise what was the solution in 2 lines: {sb.ToString()}");
+                await ai.GenerateText($"Was issue fixed?: {sb.ToString()}");
+                await ai.GenerateText($"What are sentiments from the conversation positve or negative?: {sb.ToString()}");
+                await ai.GenerateText($"What are follow up actions for the agent from conversation?: {sb.ToString()}");
 
             }
 

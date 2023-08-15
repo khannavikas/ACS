@@ -3,20 +3,26 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OpenAI_API.Completions;
-using OpenAI_API;
-using OpenAI;
-using OpenAI.Net;
+//using OpenAI_API.Completions;
+//using OpenAI_API;
+//using OpenAI;
+//using OpenAI.Net;
+using Azure.AI.OpenAI;
+using Azure.Identity;
+using Azure;
 
 namespace Recording
 {
-    public class OpenAIClient
+    public class OpenAIClient1
     {
         private readonly string _apiKey;
         private readonly HttpClient _httpClient;
 
+        const string endpoint = "https://acsrecordingchatgpt.openai.azure.com/";
+        OpenAIClient client = new OpenAIClient(new Uri(endpoint), new AzureKeyCredential("bba4ab1fdac94873b5e34dfa2eabe28b"));
 
-        public OpenAIClient(string apiKey)
+
+        public OpenAIClient1(string apiKey)
         {
 
             if (string.IsNullOrEmpty(apiKey))
@@ -26,15 +32,21 @@ namespace Recording
 
         }
 
-        public async Task GenerateText(string prompt, int maxTokens = 0)
+        public async Task<string> GenerateText  (string prompt, int maxTokens = 0)
         {
-           // Console.WriteLine(prompt);
-            OpenAI_API.OpenAIAPI api = new OpenAI_API.OpenAIAPI(_apiKey);
+           // Console.WriteLine(prompt);          
 
-            var result = await api.Completions.CreateCompletionAsync(prompt, max_tokens:200);
-            Console.WriteLine(result.Completions[0].Text);
+            try
+            {
+                var result = await client.GetCompletionsAsync("text-davinci-003", new CompletionsOptions { MaxTokens = 200, Prompts = { prompt } });
+                return result.Value.Choices[0].Text;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }           
 
-            return;
+            return string.Empty;
         }
 
 
@@ -46,20 +58,20 @@ namespace Recording
             // Define a list of PII entities to redact
             string[] pii_entities = { "name", "email address" };
 
-            CompletionRequest cr = new CompletionRequest();
+            //CompletionRequest cr = new CompletionRequest();
 
           //  cr.StopSequence = "\n";
-            cr.MaxTokens = 250;
-            cr.Prompt =  $"Redact the following PII entities from the given text:\n\n{string.Join("\n", pii_entities)}\n\n{text1}";
+            //cr.MaxTokens = 250;
+            //cr.Prompt =  $"Redact the following PII entities from the given text:\n\n{string.Join("\n", pii_entities)}\n\n{text1}";
 
-            cr.Prompt = $"Extract Key words from the given text:{text}";
+            //cr.Prompt = $"Extract Key words from the given text:{text}";
 
-            OpenAI_API.OpenAIAPI api = new OpenAI_API.OpenAIAPI(_apiKey);
+            //OpenAI_API.OpenAIAPI api = new OpenAI_API.OpenAIAPI(_apiKey);
 
-            var result =  await api.Completions.CreateCompletionAsync(cr);
+            //var result =  await api.Completions.CreateCompletionAsync(cr);
 
-            // Print the redacted text
-            Console.WriteLine("Redacted Text: " + result.Completions[0].Text.Trim());
+            //// Print the redacted text
+            //Console.WriteLine("Redacted Text: " + result.Completions[0].Text.Trim());
 
 
         }

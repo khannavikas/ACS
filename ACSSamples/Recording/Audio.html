@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Video Player with VTT Subtitles</title>
+    <style>
+        ::cue{
+            font-size: 150px;
+        }
+    </style>
+</head>
+
+<body>
+        <!-- <video controls>
+        <source src="https://acssolutionstorage.blob.core.windows.net/acs/TestAudio.wav?sp=r&st=2023-07-03T13:17:39Z&se=2023-07-03T21:17:39Z&spr=https&sv=2022-11-02&sr=b&sig=WMUJEAeS8WzoEksEo24EdRiX3T6wg9aqXgtNCUTAojM%3D" type="audio/wav">
+        <track src="https://acssolutionstorage.blob.core.windows.net/acs/audio.vtt?sp=r&st=2023-07-03T13:16:20Z&se=2023-07-03T21:16:20Z&spr=https&sv=2022-11-02&sr=b&sig=BQxVRj9pTwfaY9W%2BDzBpW1OnioMJrf4y6ui%2B6CwJd3o%3D" kind="captions" srclang="en" label="English">
+    </video> -->
+
+    <video id="video1" controls="" width="800">
+             <source src="VkTest.mp4" type="video/mp4">
+        <track id="track1" kind="subtitles" srclang="en" src="audio.vtt" label="English" >
+    </video>
+</body>
+</html> 

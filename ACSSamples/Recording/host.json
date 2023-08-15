@@ -9,8 +9,8 @@
       }
     },
     "logLevel": {
-      "Function": "Error",
-      "default": "Error"
+      "Function": "Critical",
+      "default": "Critical"
     }
   }
 }

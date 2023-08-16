@@ -293,7 +293,7 @@ namespace Recording
                 {
                     RecordingContent = RecordingContent.Audio,
                     RecordingChannel = RecordingChannel.Mixed,
-                    RecordingFormat = RecordingFormat.Wav,                   
+                    RecordingFormat = RecordingFormat.Wav,
                     RecordingStateCallbackUri = new Uri(Environment.GetEnvironmentVariable("RecordingStateUrl"))
                 };
 
@@ -305,7 +305,7 @@ namespace Recording
                   .Start(recordingOptions);
 
 
-               //  Console.WriteLine($"Start Recording time - {DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff",CultureInfo.InvariantCulture)}");
+                //  Console.WriteLine($"Start Recording time - {DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff",CultureInfo.InvariantCulture)}");
                 //Console.WriteLine($"Time to Start - {watch.ElapsedMilliseconds}");
 
 
@@ -313,7 +313,7 @@ namespace Recording
 
                 Console.WriteLine("Recording Id: " + recordingId);
 
-               // Console.WriteLine($"Id - {DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture)}");
+                // Console.WriteLine($"Id - {DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture)}");
 
                 //var k = await callAutomationClient.GetCallRecording()
                 // .PauseAsync(recordingId);
@@ -584,7 +584,7 @@ namespace Recording
                     var sasurl1 = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1));
 
                     Console.WriteLine("DownLoadRecording :" + sasurl);
-                  //  Console.WriteLine(sasurl1);
+                    //  Console.WriteLine(sasurl1);
 
 
                     //SpeechService.ConvertAudioToText(sasurl);
@@ -732,7 +732,7 @@ namespace Recording
                 PhoneNumberIdentifier caller = new PhoneNumberIdentifier(Environment.GetEnvironmentVariable("ACSCallerPhoneNumber"));
                 CallInvite ci = new CallInvite(phone, caller);
                 CallAutomationClient callAutomationClient = CallAutomationFactory.GetAutomationClient();
-                
+
                 await callAutomationClient.GetCallConnection(connectionId).AddParticipantAsync(ci);
 
             }
@@ -745,78 +745,6 @@ namespace Recording
             return new OkObjectResult("Ok");
 
         }
-
-
-        [FunctionName("GenerateRecordingAIInsight")]
-        public static async Task<IActionResult> SummariseRecording(
-[HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
- ILogger log)
-        {
-            try
-            {
-                //var sasurlId = string.Empty;
-
-                //if (req.GetQueryParameterDictionary().ContainsKey("sasurl"))
-                //{
-                //    sasurlId = (req.GetQueryParameterDictionary()["sasurl"]);
-
-                //}
-
-                //var recordingFileName = sasurlId + ".wav";
-
-                //var blobStorageConnectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
-                //var blobStorageContainerName = Environment.GetEnvironmentVariable("ContainerName");
-                //var container = new BlobContainerClient(blobStorageConnectionString, blobStorageContainerName);
-
-
-                //BlobClient blobClient = new BlobClient(blobStorageConnectionString, blobStorageContainerName, recordingFileName);
-
-
-                //var sasurl = blobClient.GenerateSasUri(Azure.Storage.Sas.BlobSasPermissions.Read, DateTime.Now.AddDays(1));
-
-
-                await  RecordingInsight.GetTranscription("");
-
-                // SpeechService.ConvertAudioToText(sasurl);
-                OpenAIClient1 ai = new OpenAIClient1(string.Empty);
-
-                var vttFile = @"C:\\audio.vtt";
-                string text = File.ReadAllText(vttFile, Encoding.UTF8);
-
-                var summary = await ai.GenerateText($"Summarize conversation between Customer and Agent: {text}");
-                var issue = await ai.GenerateText($"What was the issue faced by customer in 20 words: {text}");
-                var resolved = await ai.GenerateText($"Was customer problem resolved based on conversation?: {summary}");
-                var steps = await ai.GenerateText($"How was issue resolved based on the conversation?: {text}");
-                var sentiments = await ai.GenerateText($"What is Customer sentiment Postive or Negative: {summary}");
-                var action = await ai.GenerateText($"Follow up action on Internet plans for agent from this conversation: {text}");
-
-                Console.WriteLine("--------------------------------------------------------");
-                Console.WriteLine("Call Summary: " + summary.Replace("\n", ""));
-                Console.WriteLine("--------------------------------------------------------");
-                Console.WriteLine("\n Customer Issue: " + issue.Replace("\n", ""));
-                Console.WriteLine("--------------------------------------------------------");
-                Console.WriteLine("\n Was Issue resolved: " + resolved.Replace("\n", ""));
-                Console.WriteLine("--------------------------------------------------------");
-                Console.WriteLine("\n Resolution: " + steps.Replace("\n", ""));
-                Console.WriteLine("--------------------------------------------------------");
-                // Console.Write("Solution Suggested: " + solution);
-               
-                Console.WriteLine("\n Conversation sentiments: " + sentiments.Replace("\n", ""));
-                Console.WriteLine("--------------------------------------------------------");
-                Console.WriteLine("\n" + action.Replace("\n", ""));
-                Console.WriteLine("--------------------------------------------------------");
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                throw;
-            }
-
-            return new OkObjectResult("Ok");
-
-        }
-
 
         [FunctionName("DownLoadRecordingLink")]
         public static async Task<IActionResult> DownloadRecordingLink(
@@ -917,10 +845,10 @@ namespace Recording
      [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
       ILogger log)
         {
-            
+
             var jb = new JobRouter(); ;
             await jb.SetupJobRouter();
-        
+
         }
 
 

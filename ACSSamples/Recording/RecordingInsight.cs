@@ -17,13 +17,13 @@ namespace Recording
     public class RecordingInsight
     {
 
-        // Replace with your Azure Video Indexer API endpoint and key
+        // Replace with your Azure Video Indexer API endpoint and key and AccountId
         static string apiUrl = "https://api.videoindexer.ai";
         static string apiKey = Environment.GetEnvironmentVariable("VideoIndexerAPIKey");
         static string accountId = "a9fee7e3-8f3d-4ce6-bd06-ac4b7d8dc8d3";
         static string location = "trial";
 
-        public static async Task GetTranscription(string url)
+        public static async Task<string> GetTranscription(string recordingFilePath)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Recording
                     // create the http client
                     var handler = new HttpClientHandler();
                     handler.AllowAutoRedirect = false;
-                    // var client = new HttpClient(handler);
+
                     client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", apiKey);
 
                     // obtain account access token
@@ -46,21 +46,26 @@ namespace Recording
 
                     client.DefaultRequestHeaders.Remove("Ocp-Apim-Subscription-Key");
                     client.DefaultRequestHeaders.Add($"Authorization", $"Bearer {accountAccessToken}");
-                    // upload a video
-                    var content = new MultipartFormDataContent();
-                    // Debug.WriteLine("Uploading...");
-                    // get the video from URL
-                    var videoUrl = url; // replace with the video URL
 
-                    // as an alternative to specifying video URL, you can upload a file.
-                    // remove the videoUrl parameter from the query string below and add the following lines:
-                    var videofilepath = @"C:\\Users\\vikhann\\Downloads\\Conv.Wav";
-                    FileStream video = File.OpenRead(videofilepath);
+                    // upload recording content
+                    var content = new MultipartFormDataContent();
+
+                    // get the video from URL
+                    // var videoUrl = url; // replace with the video URL
+
+                    // as an alternative to specifying video URL, is to upload a file as in the code below, 
+                    // video url didn't work for some reason but should be preferred way rather than uploding the file.
+                    //client.PostAsync($"https://api.videoindexer.ai/trial/Accounts/a9fee7e3-8f3d-4ce6-bd06-ac4b7d8dc8d3/Videos?name=test&videoUrl={url}", content).Result; //client.PostAsync($"{apiUrl}/{location}/Accounts/{accountId}/Videos?accessToken={accountAccessToken}&name=vkription=vktest&privacy=private&partition=some_partition", content).Result;
+
+
+                    // Uploading a local file here 
+                    var recordingFilepath = recordingFilePath;
+                    FileStream video = File.OpenRead(recordingFilepath);
 
                     var streamcontent = new StreamContent(video);
                     streamcontent.Headers.Add("content-type", "application/octet-stream");
                     streamcontent.Headers.Add("content-length", video.Length.ToString());
-                    content.Add(streamcontent, "audio", Path.GetFileName(videofilepath));
+                    content.Add(streamcontent, "audio", Path.GetFileName(recordingFilepath));
 
                     // Get the video from URL
                     var queryParams = CreateQueryString(
@@ -74,12 +79,14 @@ namespace Recording
                     });
 
                     Console.WriteLine("Uploading the Audio file");
-                    var uploadRequestResult = await client.PostAsync($"{apiUrl}/{location}/Accounts/{accountId}/Videos?{queryParams}", content); //client.PostAsync($"https://api.videoindexer.ai/trial/Accounts/a9fee7e3-8f3d-4ce6-bd06-ac4b7d8dc8d3/Videos?name=test&videoUrl={url}", content).Result; //client.PostAsync($"{apiUrl}/{location}/Accounts/{accountId}/Videos?accessToken={accountAccessToken}&name=vkription=vktest&privacy=private&partition=some_partition", content).Result;
+                    var uploadRequestResult = await client.PostAsync($"{apiUrl}/{location}/Accounts/{accountId}/Videos?{queryParams}", content);
+
                     var uploadResult = uploadRequestResult.Content.ReadAsStringAsync().Result;
 
                     // get the video id from the upload result
                     var videoId = JsonConvert.DeserializeObject<dynamic>(uploadResult)["id"];
                     Console.WriteLine($"Uploaded the Audio file and generated file Id is {videoId} ");
+
                     //Debug.WriteLine("Video ID: " + videoId);
 
                     // obtain video access token
@@ -120,13 +127,12 @@ namespace Recording
                     // Get the VTT file URL
                     var vttCaptionUrl = $"{apiUrl}/{location}/Accounts/{accountId}/Videos/{videoId}/Captions?language=English";
 
-                    var vttUrl = $"{apiUrl}/{location}/Accounts/{accountId}/Videos/{videoId}/Index";
                     var vttResponse = await client.GetAsync(vttCaptionUrl);
                     vttResponse.EnsureSuccessStatusCode();
                     var vttContent = await vttResponse.Content.ReadAsStringAsync();
 
                     // Download the VTT file
-                    var vttFilePath = @"C:\\FHL\\Caption.vtt";
+                    var vttFilePath = $"C:\\FHL\\Caption-{Guid.NewGuid}.vtt";
                     await File.WriteAllTextAsync(vttFilePath, vttContent);
 
                     Console.WriteLine("Caption Generation Finished");
@@ -135,22 +141,26 @@ namespace Recording
 
                     Console.WriteLine("Generating Insight....");
 
-                    vttResponse = await client.GetAsync(vttUrl);
+                    var indexUrl = $"{apiUrl}/{location}/Accounts/{accountId}/Videos/{videoId}/Index";
+                    vttResponse = await client.GetAsync(indexUrl);
                     vttResponse.EnsureSuccessStatusCode();
                     vttContent = await vttResponse.Content.ReadAsStringAsync();
 
                     // Download the VTT file
-                    vttFilePath = @"C:\FHL\\ConvInsight.json";
-                    await File.WriteAllTextAsync(vttFilePath, vttContent);
+                    var insightFilePath = @"C:\FHL\\ConvInsight.json";
+                    await File.WriteAllTextAsync(insightFilePath, vttContent);
 
                     Console.WriteLine("Generating Insight Finished");
 
-                    Console.WriteLine($"Insight file saved: {vttFilePath}");
+                    Console.WriteLine($"Insight file saved: {insightFilePath}");
+
+                    return vttFilePath;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
+                return null;
             }
         }
 

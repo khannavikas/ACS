@@ -17,7 +17,7 @@ namespace Recording
         public static async Task ConvertAudioToText(Uri filePath)
         {
 
-            OpenAIClient1 ai = new OpenAIClient1(string.Empty);
+            OpenAIClient1 ai = new OpenAIClient1();
 
             BlobClient blobClient = new BlobClient(filePath);
 

@@ -20,7 +20,7 @@ namespace Recording
         // Replace with your Azure Video Indexer API endpoint and key and AccountId
         static string apiUrl = "https://api.videoindexer.ai";
         static string apiKey = Environment.GetEnvironmentVariable("VideoIndexerAPIKey");
-        static string accountId = "a9fee7e3-8f3d-4ce6-bd06-ac4b7d8dc8d3";
+        static string accountId = "";
         static string location = "trial";
 
         public static async Task<string> GetTranscription(string recordingFilePath)
@@ -125,14 +125,14 @@ namespace Recording
                     Console.WriteLine("Generating Caption....");
 
                     // Get the VTT file URL
-                    var vttCaptionUrl = $"{apiUrl}/{location}/Accounts/{accountId}/Videos/{videoId}/Captions?language=English";
+                    var vttCaptionUrl = $"{apiUrl}/{location}/Accounts/{accountId}/Videos/{videoId}/Captions?language=English&format=srt";
 
                     var vttResponse = await client.GetAsync(vttCaptionUrl);
                     vttResponse.EnsureSuccessStatusCode();
                     var vttContent = await vttResponse.Content.ReadAsStringAsync();
 
                     // Download the VTT file
-                    var vttFilePath = $"C:\\FHL\\Caption-{Guid.NewGuid}.vtt";
+                    var vttFilePath = $"C:\\FHL\\Caption_Demo.vtt";
                     await File.WriteAllTextAsync(vttFilePath, vttContent);
 
                     Console.WriteLine("Caption Generation Finished");

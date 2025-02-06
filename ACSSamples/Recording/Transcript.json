@@ -1,0 +1,2117 @@
+[
+  {
+    "id": 1,
+    "text": "I'll put it into the chat.",
+    "confidence": 0.6418,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:03.48",
+        "adjustedEnd": "0:00:05.28",
+        "start": "0:00:03.48",
+        "end": "0:00:05.28"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "text": "The problem is that like it it will not be completely trivial for you because there are a few different cases, like audio recordings look slightly different from video recordings and stuff like that.",
+    "confidence": 0.6418,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:05.56",
+        "adjustedEnd": "0:00:18.48",
+        "start": "0:00:05.56",
+        "end": "0:00:18.48"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "text": "We can we can figure it out right?",
+    "confidence": 0.6418,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:18.8",
+        "adjustedEnd": "0:00:20.28",
+        "start": "0:00:18.8",
+        "end": "0:00:20.28"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "text": "The based on the content ID right?",
+    "confidence": 0.6418,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:20.44",
+        "adjustedEnd": "0:00:21.88",
+        "start": "0:00:20.44",
+        "end": "0:00:21.88"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "text": "That it should, yes.",
+    "confidence": 0.6418,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:22",
+        "adjustedEnd": "0:00:22.88",
+        "start": "0:00:22",
+        "end": "0:00:22.88"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "text": "Be audio, MP3 or MP4 or whatever it is, yes.",
+    "confidence": 0.6418,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:23",
+        "adjustedEnd": "0:00:25.4",
+        "start": "0:00:23",
+        "end": "0:00:25.4"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "text": "And when, when, when, wherever it we see this PCM stream.",
+    "confidence": 0.5148,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:26.76",
+        "adjustedEnd": "0:00:30",
+        "start": "0:00:26.76",
+        "end": "0:00:30"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "text": "This is the get PCM stream.",
+    "confidence": 0.5148,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:30",
+        "adjustedEnd": "0:00:32",
+        "start": "0:00:30",
+        "end": "0:00:32"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "text": "This is what is this call about.",
+    "confidence": 0.5148,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:32.6",
+        "adjustedEnd": "0:00:34.48",
+        "start": "0:00:32.6",
+        "end": "0:00:34.48"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "text": "So this is like this is our like like you.",
+    "confidence": 0.5148,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:35",
+        "adjustedEnd": "0:00:38.48",
+        "start": "0:00:35",
+        "end": "0:00:38.48"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "text": "Can see the service name?",
+    "confidence": 0.5616,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:38.48",
+        "adjustedEnd": "0:00:39.92",
+        "start": "0:00:38.48",
+        "end": "0:00:39.92"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "text": "Yeah, basically this is call recording.",
+    "confidence": 0.5148,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:40",
+        "adjustedEnd": "0:00:42.12",
+        "start": "0:00:40",
+        "end": "0:00:42.12"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "text": "This is the call recorder itself.",
+    "confidence": 0.5148,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:42.24",
+        "adjustedEnd": "0:00:44.08",
+        "start": "0:00:42.24",
+        "end": "0:00:44.08"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "text": "That's the thing that listens in to the call and sends U.S.",
+    "confidence": 0.5148,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:44.08",
+        "adjustedEnd": "0:00:47.56",
+        "start": "0:00:44.08",
+        "end": "0:00:47.56"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "text": "data.",
+    "confidence": 0.5148,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:47.56",
+        "adjustedEnd": "0:00:47.8",
+        "start": "0:00:47.56",
+        "end": "0:00:47.8"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "text": "So you can see that there's a bunch of pull requests for PCM stream.",
+    "confidence": 0.5148,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:47.92",
+        "adjustedEnd": "0:00:51.04",
+        "start": "0:00:47.92",
+        "end": "0:00:51.04"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "text": "They are basically upholding the raw data.",
+    "confidence": 0.5148,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:51.04",
+        "adjustedEnd": "0:00:52.8",
+        "start": "0:00:51.04",
+        "end": "0:00:52.8"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "text": "Then there are calls from AMD and AMD.",
+    "confidence": 0.6528,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:53.32",
+        "adjustedEnd": "0:00:55.4",
+        "start": "0:00:53.32",
+        "end": "0:00:55.4"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "text": "This is basically the processing on our side.",
+    "confidence": 0.6528,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:55.4",
+        "adjustedEnd": "0:00:57.48",
+        "start": "0:00:55.4",
+        "end": "0:00:57.48"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "text": "So you can see that there are some GET requests for PCM stream, some more GET requests from PCM for PCM stream and then two PUT requests for MP3.",
+    "confidence": 0.6528,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:00:57.84",
+        "adjustedEnd": "0:01:07.32",
+        "start": "0:00:57.84",
+        "end": "0:01:07.32"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "text": "So this is basically the processing.",
+    "confidence": 0.6528,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:07.68",
+        "adjustedEnd": "0:01:09.04",
+        "start": "0:01:07.68",
+        "end": "0:01:09.04"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "text": "It downloads the PCM and uploads an MP3.",
+    "confidence": 0.6528,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:09.04",
+        "adjustedEnd": "0:01:11.44",
+        "start": "0:01:09.04",
+        "end": "0:01:11.44"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "text": "And then there are these.",
+    "confidence": 0.6528,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:13",
+        "adjustedEnd": "0:01:14.48",
+        "start": "0:01:13",
+        "end": "0:01:14.48"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "text": "Two this this download and upload of this.",
+    "confidence": 0.6528,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:14.48",
+        "adjustedEnd": "0:01:17.4",
+        "start": "0:01:14.48",
+        "end": "0:01:17.4"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "text": "PCM and then uploading an MP3 is done by AMS or AMT.",
+    "confidence": 0.3413,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:18.8",
+        "adjustedEnd": "0:01:23.6",
+        "start": "0:01:18.8",
+        "end": "0:01:23.6"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "text": "Yes, it's part of it's AMT technically.",
+    "confidence": 0.3413,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:23.72",
+        "adjustedEnd": "0:01:26.36",
+        "start": "0:01:23.72",
+        "end": "0:01:26.36"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "text": "So it's part of AC Media Services, but it's technically AMT as the like Transformation Service.",
+    "confidence": 0.3413,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:26.44",
+        "adjustedEnd": "0:01:32.04",
+        "start": "0:01:26.44",
+        "end": "0:01:32.04"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "text": "Yeah, I would think, oh, yeah, OK.",
+    "confidence": 0.3413,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:33.12",
+        "adjustedEnd": "0:01:35.4",
+        "start": "0:01:33.12",
+        "end": "0:01:35.4"
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "text": "I think.",
+    "confidence": 0.3413,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:35.4",
+        "adjustedEnd": "0:01:35.76",
+        "start": "0:01:35.4",
+        "end": "0:01:35.76"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "text": "We are under impression that it was done by the Call Recorder.",
+    "confidence": 0.5427,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:36.36",
+        "adjustedEnd": "0:01:39.28",
+        "start": "0:01:36.36",
+        "end": "0:01:39.28"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "text": "Or is it that Call Recorder send a request to do that transformation?",
+    "confidence": 0.5427,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:39.28",
+        "adjustedEnd": "0:01:42.72",
+        "start": "0:01:39.28",
+        "end": "0:01:42.72"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "text": "Yes, that's that's exactly what it is.",
+    "confidence": 0.5427,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:42.72",
+        "adjustedEnd": "0:01:44.44",
+        "start": "0:01:42.72",
+        "end": "0:01:44.44"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "text": "Like Call Recorder in the end.",
+    "confidence": 0.5427,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:44.44",
+        "adjustedEnd": "0:01:45.72",
+        "start": "0:01:44.44",
+        "end": "0:01:45.72"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "text": "Like once it uploads everything, it sends a request to AMD and AMT to basically process the recording.",
+    "confidence": 0.5427,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:45.72",
+        "adjustedEnd": "0:01:51.36",
+        "start": "0:01:45.72",
+        "end": "0:01:51.36"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "text": "OK.",
+    "confidence": 0.5427,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:53.2",
+        "adjustedEnd": "0:01:53.6",
+        "start": "0:01:53.2",
+        "end": "0:01:53.6"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "text": "So it doesn't have to go through AMS.",
+    "confidence": 0.5427,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:53.64",
+        "adjustedEnd": "0:01:55.36",
+        "start": "0:01:53.64",
+        "end": "0:01:55.36"
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "text": "I mean, it's a different call, right?",
+    "confidence": 0.5427,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:55.36",
+        "adjustedEnd": "0:01:56.88",
+        "start": "0:01:55.36",
+        "end": "0:01:56.88"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "text": "Yes, yes, yes, exactly.",
+    "confidence": 0.5427,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:57.12",
+        "adjustedEnd": "0:01:58.72",
+        "start": "0:01:57.12",
+        "end": "0:01:58.72"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "text": "And this is that call we say trusted service name AMD.",
+    "confidence": 0.5427,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:01:59.64",
+        "adjustedEnd": "0:02:03.12",
+        "start": "0:01:59.64",
+        "end": "0:02:03.12"
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "text": "Yeah, yeah, yeah this this is the call which uploads the kind of final result.",
+    "confidence": 0.4028,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:02:03.64",
+        "adjustedEnd": "0:02:07.36",
+        "start": "0:02:03.64",
+        "end": "0:02:07.36"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "text": "OK, so here AMT means that AMT is making a call to AMS for uploading.",
+    "confidence": 0.4028,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:02:08.4",
+        "adjustedEnd": "0:02:12.28",
+        "start": "0:02:08.4",
+        "end": "0:02:12.28"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "text": "Yeah, this fight, yes, yes, this is telemetry from AMS service, AMS basically, yeah, like the the, the storage service and you can see AMT and AMD calls that basically are doing the processing call recording calls to upload the data and then calls from directly our resource, ACS resource that are downloading the final data.",
+    "confidence": 0.4028,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:02:12.28",
+        "adjustedEnd": "0:02:32.96",
+        "start": "0:02:12.28",
+        "end": "0:02:32.96"
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "text": "And and wherever where there is blank trusted services blank.",
+    "confidence": 0.7198,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:02:33.92",
+        "adjustedEnd": "0:02:37.56",
+        "start": "0:02:33.92",
+        "end": "0:02:37.56"
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "text": "What does that mean?",
+    "confidence": 0.7198,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:02:37.56",
+        "adjustedEnd": "0:02:38.52",
+        "start": "0:02:37.56",
+        "end": "0:02:38.52"
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "text": "How do we interpret that?",
+    "confidence": 0.7198,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:02:38.52",
+        "adjustedEnd": "0:02:39.6",
+        "start": "0:02:38.52",
+        "end": "0:02:39.6"
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "text": "So in this case, it means that there is no trusted service that is calling us, but instead since you have this ACS resource ID, it's this ACS resource that is calling us.",
+    "confidence": 0.7198,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:02:40.96",
+        "adjustedEnd": "0:02:49.4",
+        "start": "0:02:40.96",
+        "end": "0:02:49.4"
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "text": "So like this is a.",
+    "confidence": 0.7198,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:02:50",
+        "adjustedEnd": "0:02:51.36",
+        "start": "0:02:50",
+        "end": "0:02:51.36"
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "text": "Like download, if I scroll to the right, that's that's the GUID of the resource, the ACS actual ACS resource.",
+    "confidence": 0.69,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:02:51.92",
+        "adjustedEnd": "0:02:57.64",
+        "start": "0:02:51.92",
+        "end": "0:02:57.64"
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "text": "You can see that it's nowhere before because it's not the call coming directly from ACS.",
+    "confidence": 0.5438,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:02:58.72",
+        "adjustedEnd": "0:03:03.68",
+        "start": "0:02:58.72",
+        "end": "0:03:03.68"
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "text": "These are the only two calls that are coming directly from ACS with like ACS authentication.",
+    "confidence": 0.5438,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:03:04.72",
+        "adjustedEnd": "0:03:09.68",
+        "start": "0:03:04.72",
+        "end": "0:03:09.68"
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "text": "So either that HMAC or AAD token.",
+    "confidence": 0.5438,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:03:10",
+        "adjustedEnd": "0:03:11.84",
+        "start": "0:03:10",
+        "end": "0:03:11.84"
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "text": "That means this is the download request.",
+    "confidence": 0.5438,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:03:12.36",
+        "adjustedEnd": "0:03:13.88",
+        "start": "0:03:12.36",
+        "end": "0:03:13.88"
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "text": "These two, yes these these are the download requests from the end user from the customer.",
+    "confidence": 0.5438,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:03:13.88",
+        "adjustedEnd": "0:03:17.64",
+        "start": "0:03:13.88",
+        "end": "0:03:17.64"
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "text": "I shared the query with you, yeah so you'll have to somehow figure out.",
+    "confidence": 0.3966,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:03:29.56",
+        "adjustedEnd": "0:03:35.56",
+        "start": "0:03:29.56",
+        "end": "0:03:35.56"
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "text": "Basically probably what you'll want to do is start with a query like this where you will find the list of document IDs like here you you can project document ID and if you execute this you will get basically a list of document IDs that are like downloaded by ACS resources.",
+    "confidence": 0.3709,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:03:35.92",
+        "adjustedEnd": "0:03:59.88",
+        "start": "0:03:35.92",
+        "end": "0:03:59.88"
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "text": "Well, actually there should also be this where just to make sure that we.",
+    "confidence": 0.3329,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:03:59.88",
+        "adjustedEnd": "0:04:03.36",
+        "start": "0:03:59.88",
+        "end": "0:04:03.36"
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "text": "Just you may not just may not just be filtering while sorry, because you also want to see that how many customers are not even downloading there.",
+    "confidence": 0.3329,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:03.52",
+        "adjustedEnd": "0:04:10.36",
+        "start": "0:04:03.52",
+        "end": "0:04:10.36"
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "text": "Files, right?",
+    "confidence": 0.3704,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:10.88",
+        "adjustedEnd": "0:04:11.44",
+        "start": "0:04:10.88",
+        "end": "0:04:11.44"
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "text": "Oh, so that also because there might be a lot of customers, they are creating recordings, but they're not downloading it, right?",
+    "confidence": 0.3704,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:11.44",
+        "adjustedEnd": "0:04:17.76",
+        "start": "0:04:11.44",
+        "end": "0:04:17.76"
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "text": "So, oh, I see they would.",
+    "confidence": 0.3704,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:17.76",
+        "adjustedEnd": "0:04:19.04",
+        "start": "0:04:17.76",
+        "end": "0:04:19.04"
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "text": "OK, be interested in to have this data also data also, but yeah, that's a good starting point for us.",
+    "confidence": 0.3704,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:19.04",
+        "adjustedEnd": "0:04:23.4",
+        "start": "0:04:19.04",
+        "end": "0:04:23.4"
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "text": "We'll explore this.",
+    "confidence": 0.3704,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:23.4",
+        "adjustedEnd": "0:04:24.56",
+        "start": "0:04:23.4",
+        "end": "0:04:24.56"
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "text": "I'm I'm trying to think whether there's a way for you to the.",
+    "confidence": 0.3704,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:25.24",
+        "adjustedEnd": "0:04:28.88",
+        "start": "0:04:25.24",
+        "end": "0:04:28.88"
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "text": "The main problem here is not like this but like this.",
+    "confidence": 0.3967,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:28.92",
+        "adjustedEnd": "0:04:36.76",
+        "start": "0:04:28.92",
+        "end": "0:04:36.76"
+      }
+    ]
+  },
+  {
+    "id": 65,
+    "text": "The main problem here is that like these call recording calls, they will like don't.",
+    "confidence": 0.4186,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:36.76",
+        "adjustedEnd": "0:04:45.48",
+        "start": "0:04:36.76",
+        "end": "0:04:45.48"
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "text": "It's, yeah.",
+    "confidence": 0.6715,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:45.52",
+        "adjustedEnd": "0:04:46.44",
+        "start": "0:04:45.52",
+        "end": "0:04:46.44"
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "text": "It's not clear whether it's.",
+    "confidence": 0.4186,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:46.44",
+        "adjustedEnd": "0:04:48.16",
+        "start": "0:04:46.44",
+        "end": "0:04:48.16"
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "text": "ACS, ACS, OK.",
+    "confidence": 0.4186,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:48.4",
+        "adjustedEnd": "0:04:49.12",
+        "start": "0:04:48.4",
+        "end": "0:04:49.12"
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "text": "We don't know if it is an ACS or a Teams or what, right.",
+    "confidence": 0.4186,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:49.12",
+        "adjustedEnd": "0:04:51.8",
+        "start": "0:04:49.12",
+        "end": "0:04:51.8"
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "text": "Yes, it could be anything because I don't think that they are going to provide us with anything that would tell you that it's ACS and that's that might be a problem for.",
+    "confidence": 0.4186,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:04:51.8",
+        "adjustedEnd": "0:05:03.12",
+        "start": "0:04:51.8",
+        "end": "0:05:03.12"
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "text": "You.",
+    "confidence": 0.4186,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:04.64",
+        "adjustedEnd": "0:05:04.72",
+        "start": "0:05:04.64",
+        "end": "0:05:04.72"
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "text": "So the only way we want you could know is reverse going reverse, right, in terms like see the downloads and then see the time they were available to us, right, Yes, yes.",
+    "confidence": 0.747,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:04.8",
+        "adjustedEnd": "0:05:14",
+        "start": "0:05:04.8",
+        "end": "0:05:14"
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "text": "So that means, OK, I understand your point.",
+    "confidence": 0.2584,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:14.52",
+        "adjustedEnd": "0:05:17.4",
+        "start": "0:05:14.52",
+        "end": "0:05:17.4"
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "text": "Yeah, we'll figure out if there is something that is there or another option.",
+    "confidence": 0.2584,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:17.88",
+        "adjustedEnd": "0:05:22.36",
+        "start": "0:05:17.88",
+        "end": "0:05:22.36"
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "text": "Maybe I think they should see for example.",
+    "confidence": 0.2584,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:22.36",
+        "adjustedEnd": "0:05:24.4",
+        "start": "0:05:22.36",
+        "end": "0:05:24.4"
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "text": "I don't know if it is available here in this data, because ACS for ECS for each file we set those permissions right?",
+    "confidence": 0.2584,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:24.72",
+        "adjustedEnd": "0:05:29.56",
+        "start": "0:05:24.72",
+        "end": "0:05:29.56"
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "text": "Last time we talked about, right?",
+    "confidence": 0.2584,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:29.56",
+        "adjustedEnd": "0:05:31",
+        "start": "0:05:29.56",
+        "end": "0:05:31"
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "text": "Yeah, but it's not like we don't permissions here.",
+    "confidence": 0.2584,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:31",
+        "adjustedEnd": "0:05:33.24",
+        "start": "0:05:31",
+        "end": "0:05:33.24"
+      }
+    ]
+  },
+  {
+    "id": 79,
+    "text": "But we don't have that permission, OK?",
+    "confidence": 0.6213,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:33.76",
+        "adjustedEnd": "0:05:35.52",
+        "start": "0:05:33.76",
+        "end": "0:05:35.52"
+      }
+    ]
+  },
+  {
+    "id": 80,
+    "text": "The resource ID permission.",
+    "confidence": 0.6213,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:35.64",
+        "adjustedEnd": "0:05:36.76",
+        "start": "0:05:35.64",
+        "end": "0:05:36.76"
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "text": "OK, we don't have that.",
+    "confidence": 0.6213,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:36.76",
+        "adjustedEnd": "0:05:37.76",
+        "start": "0:05:36.76",
+        "end": "0:05:37.76"
+      }
+    ]
+  },
+  {
+    "id": 82,
+    "text": "At the same time, yeah, in in the worst case you might be able to fetch the data from Call Recorder and do a like join between Call Recorder data and AMS data in potentially like where you yeah get the list of recordings from Call Recorder and use that list to like get the download times for from from AMS data.",
+    "confidence": 0.6213,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:05:38.84",
+        "adjustedEnd": "0:06:03.12",
+        "start": "0:05:38.84",
+        "end": "0:06:03.12"
+      }
+    ]
+  },
+  {
+    "id": 83,
+    "text": "Yeah, I got it.",
+    "confidence": 0.4971,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:09.68",
+        "adjustedEnd": "0:06:10.8",
+        "start": "0:06:09.68",
+        "end": "0:06:10.8"
+      }
+    ]
+  },
+  {
+    "id": 84,
+    "text": "Yeah.",
+    "confidence": 0.4971,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:11.76",
+        "adjustedEnd": "0:06:12.16",
+        "start": "0:06:11.76",
+        "end": "0:06:12.16"
+      }
+    ]
+  },
+  {
+    "id": 85,
+    "text": "OK.",
+    "confidence": 0.4971,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:12.44",
+        "adjustedEnd": "0:06:12.56",
+        "start": "0:06:12.44",
+        "end": "0:06:12.56"
+      }
+    ]
+  },
+  {
+    "id": 86,
+    "text": "OK.",
+    "confidence": 0.4971,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:12.6",
+        "adjustedEnd": "0:06:12.88",
+        "start": "0:06:12.6",
+        "end": "0:06:12.88"
+      }
+    ]
+  },
+  {
+    "id": 87,
+    "text": "Let's say, let's to start with, let's do this analysis and then we'll figure out a way where we want to see how many recordings have not been even downloaded.",
+    "confidence": 0.4971,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:12.96",
+        "adjustedEnd": "0:06:20.04",
+        "start": "0:06:12.96",
+        "end": "0:06:20.04"
+      }
+    ]
+  },
+  {
+    "id": 88,
+    "text": "Yep.",
+    "confidence": 0.4971,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:22.52",
+        "adjustedEnd": "0:06:22.64",
+        "start": "0:06:22.52",
+        "end": "0:06:22.64"
+      }
+    ]
+  },
+  {
+    "id": 89,
+    "text": "Yeah, I think that's good.",
+    "confidence": 0.4971,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:22.64",
+        "adjustedEnd": "0:06:23.84",
+        "start": "0:06:22.64",
+        "end": "0:06:23.84"
+      }
+    ]
+  },
+  {
+    "id": 90,
+    "text": "Could you share this with us?",
+    "confidence": 0.4971,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:24.08",
+        "adjustedEnd": "0:06:26.12",
+        "start": "0:06:24.08",
+        "end": "0:06:26.12"
+      }
+    ]
+  },
+  {
+    "id": 91,
+    "text": "OK, It's the same query, yeah.",
+    "confidence": 0.4971,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:26.12",
+        "adjustedEnd": "0:06:27.8",
+        "start": "0:06:26.12",
+        "end": "0:06:27.8"
+      }
+    ]
+  },
+  {
+    "id": 92,
+    "text": "Yeah.",
+    "confidence": 0.4971,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:28.08",
+        "adjustedEnd": "0:06:28.24",
+        "start": "0:06:28.08",
+        "end": "0:06:28.24"
+      }
+    ]
+  },
+  {
+    "id": 93,
+    "text": "I didn't see in the chat.",
+    "confidence": 0.5511,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:29.6",
+        "adjustedEnd": "0:06:30.76",
+        "start": "0:06:29.6",
+        "end": "0:06:30.76"
+      }
+    ]
+  },
+  {
+    "id": 94,
+    "text": "I don't know.",
+    "confidence": 0.5511,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:30.76",
+        "adjustedEnd": "0:06:31.08",
+        "start": "0:06:30.76",
+        "end": "0:06:31.08"
+      }
+    ]
+  },
+  {
+    "id": 95,
+    "text": "Yeah, it's not in this chat because for some reason I didn't have rights to send messages into this chat.",
+    "confidence": 0.5511,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:31.56",
+        "adjustedEnd": "0:06:36.92",
+        "start": "0:06:31.56",
+        "end": "0:06:36.92"
+      }
+    ]
+  },
+  {
+    "id": 96,
+    "text": "But I created the group chat between you, me and Amari.",
+    "confidence": 0.5511,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:36.92",
+        "adjustedEnd": "0:06:40.04",
+        "start": "0:06:36.92",
+        "end": "0:06:40.04"
+      }
+    ]
+  },
+  {
+    "id": 97,
+    "text": "Yeah, it says chat is muted for me also.",
+    "confidence": 0.5511,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:40.72",
+        "adjustedEnd": "0:06:43.2",
+        "start": "0:06:40.72",
+        "end": "0:06:43.2"
+      }
+    ]
+  },
+  {
+    "id": 98,
+    "text": "OK.",
+    "confidence": 0.5511,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:43.24",
+        "adjustedEnd": "0:06:43.6",
+        "start": "0:06:43.24",
+        "end": "0:06:43.6"
+      }
+    ]
+  },
+  {
+    "id": 99,
+    "text": "Yeah.",
+    "confidence": 0.5511,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:43.6",
+        "adjustedEnd": "0:06:43.72",
+        "start": "0:06:43.6",
+        "end": "0:06:43.72"
+      }
+    ]
+  },
+  {
+    "id": 100,
+    "text": "Thank.",
+    "confidence": 0.5511,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:44.56",
+        "adjustedEnd": "0:06:44.92",
+        "start": "0:06:44.56",
+        "end": "0:06:44.92"
+      }
+    ]
+  },
+  {
+    "id": 101,
+    "text": "Thank.",
+    "confidence": 0.5511,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:45.2",
+        "adjustedEnd": "0:06:45.56",
+        "start": "0:06:45.2",
+        "end": "0:06:45.56"
+      }
+    ]
+  },
+  {
+    "id": 102,
+    "text": "Thank you so much.",
+    "confidence": 0.5511,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:45.56",
+        "adjustedEnd": "0:06:46.24",
+        "start": "0:06:45.56",
+        "end": "0:06:46.24"
+      }
+    ]
+  },
+  {
+    "id": 103,
+    "text": "Amari.",
+    "confidence": 0.5511,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:46.4",
+        "adjustedEnd": "0:06:46.64",
+        "start": "0:06:46.4",
+        "end": "0:06:46.64"
+      }
+    ]
+  },
+  {
+    "id": 104,
+    "text": "Do you have any questions?",
+    "confidence": 0.5511,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:46.64",
+        "adjustedEnd": "0:06:47.52",
+        "start": "0:06:46.64",
+        "end": "0:06:47.52"
+      }
+    ]
+  },
+  {
+    "id": 105,
+    "text": "Yeah, just one quick question.",
+    "confidence": 0.5511,
+    "speakerId": 1,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:48.2",
+        "adjustedEnd": "0:06:49.64",
+        "start": "0:06:48.2",
+        "end": "0:06:49.64"
+      }
+    ]
+  },
+  {
+    "id": 106,
+    "text": "Can you remind me where which one is the timestamp where the recording is available and which one is the timestamp where the customer actually downloads it?",
+    "confidence": 0.5511,
+    "speakerId": 1,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:06:49.8",
+        "adjustedEnd": "0:06:58.32",
+        "start": "0:06:49.8",
+        "end": "0:06:58.32"
+      }
+    ]
+  },
+  {
+    "id": 107,
+    "text": "Yes, so like this.",
+    "confidence": 0.3032,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:00.32",
+        "adjustedEnd": "0:07:03.44",
+        "start": "0:07:00.32",
+        "end": "0:07:03.44"
+      }
+    ]
+  },
+  {
+    "id": 108,
+    "text": "Wait.",
+    "confidence": 0.3032,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:03.68",
+        "adjustedEnd": "0:07:04.04",
+        "start": "0:07:03.68",
+        "end": "0:07:04.04"
+      }
+    ]
+  },
+  {
+    "id": 109,
+    "text": "I was looking so this one this boot.",
+    "confidence": 0.4192,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:07.88",
+        "adjustedEnd": "0:07:13.48",
+        "start": "0:07:07.88",
+        "end": "0:07:13.48"
+      }
+    ]
+  },
+  {
+    "id": 110,
+    "text": "Basically after this boot the recording is available.",
+    "confidence": 0.3032,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:14.12",
+        "adjustedEnd": "0:07:17.36",
+        "start": "0:07:14.12",
+        "end": "0:07:17.36"
+      }
+    ]
+  },
+  {
+    "id": 111,
+    "text": "Basically after the content that is downloaded was uploaded, it is available like you can see this content ID being audio MP3 which is the same content that is being downloaded here.",
+    "confidence": 0.3032,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:17.4",
+        "adjustedEnd": "0:07:27.04",
+        "start": "0:07:17.4",
+        "end": "0:07:27.04"
+      }
+    ]
+  },
+  {
+    "id": 112,
+    "text": "And that's OK, all the recording is actually ready.",
+    "confidence": 0.4496,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:27.48",
+        "adjustedEnd": "0:07:29.12",
+        "start": "0:07:27.48",
+        "end": "0:07:29.12"
+      }
+    ]
+  },
+  {
+    "id": 113,
+    "text": "OK, OK, gotcha.",
+    "confidence": 0.4496,
+    "speakerId": 1,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:29.68",
+        "adjustedEnd": "0:07:30.8",
+        "start": "0:07:29.68",
+        "end": "0:07:30.8"
+      }
+    ]
+  },
+  {
+    "id": 114,
+    "text": "Yeah, we we need to select the document ID as well and then make a join kind of a thing within it.",
+    "confidence": 0.4496,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:32.04",
+        "adjustedEnd": "0:07:37.32",
+        "start": "0:07:32.04",
+        "end": "0:07:37.32"
+      }
+    ]
+  },
+  {
+    "id": 115,
+    "text": "We have different.",
+    "confidence": 0.4496,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:37.72",
+        "adjustedEnd": "0:07:38.36",
+        "start": "0:07:37.72",
+        "end": "0:07:38.36"
+      }
+    ]
+  },
+  {
+    "id": 116,
+    "text": "OK, Yeah.",
+    "confidence": 0.4496,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:41.2",
+        "adjustedEnd": "0:07:41.6",
+        "start": "0:07:41.2",
+        "end": "0:07:41.6"
+      }
+    ]
+  },
+  {
+    "id": 117,
+    "text": "All right.",
+    "confidence": 0.4496,
+    "speakerId": 1,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:43.24",
+        "adjustedEnd": "0:07:43.52",
+        "start": "0:07:43.24",
+        "end": "0:07:43.52"
+      }
+    ]
+  },
+  {
+    "id": 118,
+    "text": "Thank you.",
+    "confidence": 0.4496,
+    "speakerId": 1,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:43.52",
+        "adjustedEnd": "0:07:43.96",
+        "start": "0:07:43.52",
+        "end": "0:07:43.96"
+      }
+    ]
+  },
+  {
+    "id": 119,
+    "text": "Sure.",
+    "confidence": 0.4496,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:45.16",
+        "adjustedEnd": "0:07:45.36",
+        "start": "0:07:45.16",
+        "end": "0:07:45.36"
+      }
+    ]
+  },
+  {
+    "id": 120,
+    "text": "Thank you.",
+    "confidence": 0.4496,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:46.76",
+        "adjustedEnd": "0:07:47.32",
+        "start": "0:07:46.76",
+        "end": "0:07:47.32"
+      }
+    ]
+  },
+  {
+    "id": 121,
+    "text": "Thank you so much.",
+    "confidence": 0.4496,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:47.32",
+        "adjustedEnd": "0:07:49.04",
+        "start": "0:07:47.32",
+        "end": "0:07:49.04"
+      }
+    ]
+  },
+  {
+    "id": 122,
+    "text": "I think you're good for now.",
+    "confidence": 0.4496,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:49.04",
+        "adjustedEnd": "0:07:50.08",
+        "start": "0:07:49.04",
+        "end": "0:07:50.08"
+      }
+    ]
+  },
+  {
+    "id": 123,
+    "text": "I think we'll once we get some data probably you would want to get it validated.",
+    "confidence": 0.4496,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:50.08",
+        "adjustedEnd": "0:07:54.6",
+        "start": "0:07:50.08",
+        "end": "0:07:54.6"
+      }
+    ]
+  },
+  {
+    "id": 124,
+    "text": "So we'll.",
+    "confidence": 0.4496,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:54.64",
+        "adjustedEnd": "0:07:55.28",
+        "start": "0:07:54.64",
+        "end": "0:07:55.28"
+      }
+    ]
+  },
+  {
+    "id": 125,
+    "text": "Try to write.",
+    "confidence": 0.439,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:55.88",
+        "adjustedEnd": "0:07:56.32",
+        "start": "0:07:55.88",
+        "end": "0:07:56.32"
+      }
+    ]
+  },
+  {
+    "id": 126,
+    "text": "Yeah, reach out to you to understand and validate the queries that we write, right?",
+    "confidence": 0.439,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:56.32",
+        "adjustedEnd": "0:07:59.52",
+        "start": "0:07:56.32",
+        "end": "0:07:59.52"
+      }
+    ]
+  },
+  {
+    "id": 127,
+    "text": "Just to be sure about one thing.",
+    "confidence": 0.439,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:07:59.76",
+        "adjustedEnd": "0:08:02.08",
+        "start": "0:07:59.76",
+        "end": "0:08:02.08"
+      }
+    ]
+  },
+  {
+    "id": 128,
+    "text": "I'm out for the next two weeks.",
+    "confidence": 0.439,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:02.08",
+        "adjustedEnd": "0:08:03.52",
+        "start": "0:08:02.08",
+        "end": "0:08:03.52"
+      }
+    ]
+  },
+  {
+    "id": 129,
+    "text": "There is Channel Acing Media Services.",
+    "confidence": 0.439,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:04.12",
+        "adjustedEnd": "0:08:08.76",
+        "start": "0:08:04.12",
+        "end": "0:08:08.76"
+      }
+    ]
+  },
+  {
+    "id": 130,
+    "text": "Yeah, let me share a link to that Channel if you don't have it yet.",
+    "confidence": 0.439,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:08.76",
+        "adjustedEnd": "0:08:11.64",
+        "start": "0:08:08.76",
+        "end": "0:08:11.64"
+      }
+    ]
+  },
+  {
+    "id": 131,
+    "text": "Post your question there, some sure from my team will be able to help.",
+    "confidence": 0.439,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:13.8",
+        "adjustedEnd": "0:08:16.92",
+        "start": "0:08:13.8",
+        "end": "0:08:16.92"
+      }
+    ]
+  },
+  {
+    "id": 132,
+    "text": "Hopefully.",
+    "confidence": 0.439,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:17.28",
+        "adjustedEnd": "0:08:17.56",
+        "start": "0:08:17.28",
+        "end": "0:08:17.56"
+      }
+    ]
+  },
+  {
+    "id": 133,
+    "text": "OK.",
+    "confidence": 0.439,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:18.32",
+        "adjustedEnd": "0:08:18.6",
+        "start": "0:08:18.32",
+        "end": "0:08:18.6"
+      }
+    ]
+  },
+  {
+    "id": 134,
+    "text": "All right, great.",
+    "confidence": 0.439,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:21.84",
+        "adjustedEnd": "0:08:22.52",
+        "start": "0:08:21.84",
+        "end": "0:08:22.52"
+      }
+    ]
+  },
+  {
+    "id": 135,
+    "text": "You know, thank you very much and.",
+    "confidence": 0.3825,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:23.2",
+        "adjustedEnd": "0:08:24.56",
+        "start": "0:08:23.2",
+        "end": "0:08:24.56"
+      }
+    ]
+  },
+  {
+    "id": 136,
+    "text": "Thank you so much.",
+    "confidence": 0.3483,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:24.56",
+        "adjustedEnd": "0:08:25.24",
+        "start": "0:08:24.56",
+        "end": "0:08:25.24"
+      }
+    ]
+  },
+  {
+    "id": 137,
+    "text": "Thank for your time.",
+    "confidence": 0.3483,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:25.24",
+        "adjustedEnd": "0:08:26.08",
+        "start": "0:08:25.24",
+        "end": "0:08:26.08"
+      }
+    ]
+  },
+  {
+    "id": 138,
+    "text": "You too.",
+    "confidence": 0.3483,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:26.36",
+        "adjustedEnd": "0:08:26.8",
+        "start": "0:08:26.36",
+        "end": "0:08:26.8"
+      }
+    ]
+  },
+  {
+    "id": 139,
+    "text": "Thank you.",
+    "confidence": 0.3483,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:26.88",
+        "adjustedEnd": "0:08:27.52",
+        "start": "0:08:26.88",
+        "end": "0:08:27.52"
+      }
+    ]
+  },
+  {
+    "id": 140,
+    "text": "Enjoy your vacations.",
+    "confidence": 0.3483,
+    "speakerId": 3,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:27.52",
+        "adjustedEnd": "0:08:28.4",
+        "start": "0:08:27.52",
+        "end": "0:08:28.4"
+      }
+    ]
+  },
+  {
+    "id": 141,
+    "text": "Bye, bye, bye.",
+    "confidence": 0.3483,
+    "speakerId": 2,
+    "language": "en-US",
+    "instances": [
+      {
+        "adjustedStart": "0:08:28.4",
+        "adjustedEnd": "0:08:30.08",
+        "start": "0:08:28.4",
+        "end": "0:08:30.08"
+      }
+    ]
+  }
+]
